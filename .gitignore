@@ -43,3 +43,7 @@ Thumbs.db
 
 # Used to store local secrets
 .env.secret
+
+# Generated Docusaurus files
+.docusaurus/
+.cache-loader/

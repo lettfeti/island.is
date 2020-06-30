@@ -115,7 +115,9 @@
     "uuidv4": "6.0.8",
     "winston": "3.2.1",
     "xstate": "4.10.0",
-    "yup": "0.29.0"
+    "yup": "0.29.0",
+    "@docusaurus/core": "^2.0.0-alpha.58",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.58"
   },
   "devDependencies": {
     "@babel/core": "7.8.3",
@@ -143,6 +145,7 @@
     "@nrwl/storybook": "9.2.4",
     "@nrwl/web": "9.2.4",
     "@nrwl/workspace": "9.2.4",
+    "@nx-plus/docusaurus": "^0.0.4",
     "@sentry/webpack-plugin": "^1.11.1",
     "@storybook/addon-a11y": "^5.3.18",
     "@storybook/addon-knobs": "5.3.9",

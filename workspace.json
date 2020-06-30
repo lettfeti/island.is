@@ -1057,6 +1057,25 @@
           }
         }
       }
+    },
+    "viskuausan": {
+      "projectType": "application",
+      "root": "apps/viskuausan",
+      "sourceRoot": "apps/viskuausan/src",
+      "architect": {
+        "docusaurus": {
+          "builder": "@nx-plus/docusaurus:docusaurus",
+          "options": {
+            "port": 3000
+          }
+        },
+        "build-docusaurus": {
+          "builder": "@nx-plus/docusaurus:build-docusaurus",
+          "options": {
+            "outputPath": "dist/docusaurus/viskuausan"
+          }
+        }
+      }
     }
   },
   "cli": {
