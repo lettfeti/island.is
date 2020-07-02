@@ -36,6 +36,8 @@
   "dependencies": {
     "@contentful/rich-text-react-renderer": "13.4.0",
     "@contentful/rich-text-types": "14.1.0",
+    "@docusaurus/core": "^2.0.0-alpha.58",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.58",
     "@elastic/elasticsearch": "7.7.1",
     "@nestjs/common": "6.8.3",
     "@nestjs/core": "6.8.3",
@@ -115,15 +117,14 @@
     "uuidv4": "6.0.8",
     "winston": "3.2.1",
     "xstate": "4.10.0",
-    "yup": "0.29.0",
-    "@docusaurus/core": "^2.0.0-alpha.58",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.58"
+    "yup": "0.29.0"
   },
   "devDependencies": {
     "@babel/core": "7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
+    "@docusaurus/module-type-aliases": "^2.0.0-alpha.58",
     "@gperdomor/nx-docker": "^0.2.2",
     "@graphql-codegen/cli": "^1.13.5",
     "@graphql-codegen/fragment-matcher": "^1.14.0",

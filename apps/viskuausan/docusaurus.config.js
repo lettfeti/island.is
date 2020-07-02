@@ -1,30 +1,43 @@
 module.exports = {
-  title: 'My Site',
-  tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  title: 'Viskuausan',
+  tagline:
+    'Hér færð þú yfirlit yfir allar þær vefþjónustur og gögn sem hið opinbera býður uppá.',
+  url: 'https://viskuausan.island.is',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'island-is', // Usually your GitHub org/user name.
+  projectName: 'viskuausan', // Usually your repo name.
   themeConfig: {
+    disableDarkMode: true,
+    defaultDarkMode: false,
     navbar: {
-      title: 'My Site',
+      title: '',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'island.is logo',
+        src: 'img/logo.png',
       },
       links: [
         {
-          to: 'docs/doc1',
-          activeBasePath: 'docs',
-          label: 'Docs',
-          position: 'left',
-        },
-        { to: 'blog', label: 'Blog', position: 'left' },
-        {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
+          to: 'vorulisti',
+          label: 'API Vörulisti',
           position: 'right',
+        },
+        {
+          to: 'gagnamodel',
+          label: 'Gagnamódel',
+          position: 'right',
+        },
+        {
+          to: 'api-design-guide',
+          activeBasePath: 'api-design-guide',
+          label: 'API Design Guide',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/island-is/island.is',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },
@@ -75,7 +88,7 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Stafrænt Ísland. Powered by Docusaurus.`,
     },
   },
   presets: [
@@ -83,7 +96,10 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          path: 'api-design-guide',
+          routeBasePath: 'api-design-guide',
           sidebarPath: require.resolve('./sidebars.js'),
+          homePageId: 'introduction',
           editUrl:
             'https://github.com/facebook/docusaurus/edit/master/website/',
         },
