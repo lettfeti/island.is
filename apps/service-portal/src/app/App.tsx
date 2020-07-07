@@ -1,10 +1,13 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react'
+import { ServicePortalModuleProps } from '@island.is/service-portal/types'
 
 // Note: We get scope from JWT
 const mockScope = ['moduleA', 'moduleB']
 
-const importModule = (moduleName) => {
-  return lazy(() =>
+const importModule = (
+  moduleName,
+): React.LazyExoticComponent<ServicePortalModuleProps> => {
+  return lazy<ServicePortalModuleProps>(() =>
     // eslint-disable-line rule
     import(`libs/service-portal/modules/src/${moduleName}/index`).catch((e) =>
       import('@island.is/service-portal/modules/error/index'),

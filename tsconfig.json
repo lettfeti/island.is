@@ -50,6 +50,9 @@
       ],
       "@island.is/service-portal/modules/*": [
         "libs/service-portal/modules/src/*"
+      ],
+      "@island.is/service-portal/types": [
+        "libs/service-portal/types/src/index.ts"
       ]
     }
   },
