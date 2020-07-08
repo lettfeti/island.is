@@ -1117,7 +1117,7 @@
             ],
             "styles": ["apps/service-portal/src/styles.scss"],
             "scripts": [],
-            "webpackConfig": "@nrwl/react/plugins/webpack"
+            "webpackConfig": "apps/service-portal/webpack.config.js"
           },
           "configurations": {
             "production": {
