@@ -20,13 +20,12 @@ export const ModuleB: ServicePortalModuleProps = ({ getRoutes }) => {
     },
     subPage: {
       path: '/moduleB/subpage',
-      label: 'SubPage',
+      label: 'Module B - SubPage',
     },
   }
   getRoutes && getRoutes([navItems.mainPage, navItems.subPage])
   return (
     <Switch>
-      us
       <Route
         path={navItems.subPage.path}
         component={() => (

@@ -1,35 +1,38 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react'
-import { ServicePortalModuleProps } from '@island.is/service-portal/types'
+import {
+  ServicePortalModuleProps,
+  ServicePortalNavItem,
+} from '@island.is/service-portal/types'
+import { Link, Route, Switch } from 'react-router-dom'
 
 // Note: We get scope from JWT
-const mockScope = ['moduleA', 'moduleB']
+const mockScope = ['moduleA.subA', 'moduleA.subB', 'moduleA.subC']
 
 const importModule = (
-  moduleName,
+  moduleName: string,
 ): React.LazyExoticComponent<ServicePortalModuleProps> => {
   return lazy<ServicePortalModuleProps>(() =>
-    // eslint-disable-line rule
     import(`libs/service-portal/modules/src/${moduleName}/index`).catch((e) =>
       import('@island.is/service-portal/modules/error/index'),
     ),
   )
 }
-
 export const App = () => {
   const [subjectScope, setSubjectScope] = useState(mockScope)
   const [viewModules, setViewModules] = useState([])
-  const [availableRoutes, setAvailableRoutes] = useState([])
+  const [availableRoutes, setAvailableRoutes] = useState<
+    Array<ServicePortalNavItem>
+  >([])
 
   useEffect(() => {
     async function loadViews() {
       const componentPromises = subjectScope.map(async (scope) => {
-        const moduleName = scope
-        console.log(moduleName)
+        const [moduleName, subModule] = scope.split('.')
+
         const View = await importModule(moduleName)
-        // eslint-disable-next-line rule
-        console.log(View)
         return (
           <View
+            scope={[subModule]}
             getRoutes={(routes) =>
               setAvailableRoutes((oldState) => [...oldState, ...routes])
             }
@@ -42,11 +45,22 @@ export const App = () => {
 
     loadViews()
   }, [subjectScope])
-  console.log(availableRoutes)
   return (
-    <React.Suspense fallback="Loading views...">
-      <div className="container">{viewModules}</div>
-    </React.Suspense>
+    <Switch>
+      <Suspense fallback="Loading views...">
+        <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
+          <aside>
+            <Link to="/">DASHBOARD!</Link>
+            {availableRoutes.map((i) => (
+              <Link to={i.path} style={{ display: 'block' }}>
+                {i.label}
+              </Link>
+            ))}
+          </aside>
+          <div className="container">{viewModules}</div>
+        </div>
+      </Suspense>
+    </Switch>
   )
 }
 

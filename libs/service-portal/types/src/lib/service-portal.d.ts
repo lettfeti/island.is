@@ -10,6 +10,7 @@ export interface ServicePortalNavItem {
 
 interface ServicePortalModule {
   getRoutes?: (navItems: ServicePortalNavItem[]) => void
+  scope: string[]
 }
 
 export type ServicePortalModuleProps = FC<ServicePortalModule>
