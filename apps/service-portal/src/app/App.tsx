@@ -5,7 +5,13 @@ import {
 } from '@island.is/service-portal/types'
 import { Link, Route, Switch } from 'react-router-dom'
 
-// Note: We get scope from JWT
+import { makeServer } from 'apps/service-portal/mirage-server'
+import { Login } from '../screens/login/login'
+import { StateProvider } from '../stateProvider'
+import * as store from '../store'
+import Authenticator from '../components/authenticator/authenticator'
+import Header from '../components/header/header'
+
 const mockScope = ['moduleA.subA', 'moduleA.subB', 'moduleA.subC']
 
 const importModule = (
@@ -23,6 +29,7 @@ export const App = () => {
   const [availableRoutes, setAvailableRoutes] = useState<
     Array<ServicePortalNavItem>
   >([])
+  makeServer()
 
   useEffect(() => {
     async function loadViews() {
@@ -46,21 +53,29 @@ export const App = () => {
     loadViews()
   }, [subjectScope])
   return (
-    <Switch>
-      <Suspense fallback="Loading views...">
-        <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
-          <aside>
-            <Link to="/">DASHBOARD!</Link>
-            {availableRoutes.map((i) => (
-              <Link to={i.path} style={{ display: 'block' }}>
-                {i.label}
-              </Link>
-            ))}
-          </aside>
-          <div className="container">{viewModules}</div>
-        </div>
-      </Suspense>
-    </Switch>
+    <StateProvider initialState={store.initialState} reducer={store.reducer}>
+      <Switch>
+        <Route path="/innskraning">
+          <Login />
+        </Route>
+        <Authenticator>
+          <Header />
+          <Suspense fallback="Loading views...">
+            <div style={{ display: 'grid', gridTemplateColumns: '20% 80%' }}>
+              <aside>
+                <Link to="/">DASHBOARD!</Link>
+                {availableRoutes.map((i) => (
+                  <Link to={i.path} style={{ display: 'block' }}>
+                    {i.label}
+                  </Link>
+                ))}
+              </aside>
+              <div className="container">{viewModules}</div>
+            </div>
+          </Suspense>
+        </Authenticator>
+      </Switch>
+    </StateProvider>
   )
 }
 
