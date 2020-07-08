@@ -3,8 +3,8 @@ import React from 'react'
 import { fetchToken } from './../../auth/utils'
 import { useStateValue } from './../../stateProvider'
 import jwtDecode from 'jwt-decode'
-import {} from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
+import { Button } from '@island.is/island-ui/core'
 
 interface Subject {
   accountType: string
@@ -36,7 +36,7 @@ export const Login = () => {
   }
   return (
     <div>
-      <button onClick={handleLogin}>Innskráning</button>
+      <Button onClick={handleLogin}>Innskráning</Button>
     </div>
   )
 }
