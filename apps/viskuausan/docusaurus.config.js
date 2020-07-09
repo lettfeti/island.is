@@ -18,7 +18,7 @@ module.exports = {
       },
       links: [
         {
-          to: 'vorulisti',
+          to: 'api',
           label: 'API Vörulisti',
           position: 'right',
         },
@@ -28,8 +28,8 @@ module.exports = {
           position: 'right',
         },
         {
-          to: 'api-design-guide',
-          activeBasePath: 'api-design-guide',
+          to: 'design-guide',
+          activeBasePath: 'designGuide',
           label: 'API Design Guide',
           position: 'right',
         },
@@ -96,8 +96,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          path: 'api-design-guide',
-          routeBasePath: 'api-design-guide',
+          path: 'designGuide',
+          routeBasePath: 'design-guide',
           sidebarPath: require.resolve('./sidebars.js'),
           homePageId: 'introduction',
           editUrl:
