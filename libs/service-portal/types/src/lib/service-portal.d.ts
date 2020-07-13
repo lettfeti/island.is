@@ -1,17 +1,9 @@
-import { FC } from 'react'
-
 export interface ServicePortalNavigation {
-  routes: ServicePortalNavItem[]
-}
-export interface ServicePortalNavItem {
-  group?: 'action' | 'information'
-  label: string
-  path: string
-  navItems?: Array<ServicePortalNavItem>
+  routes: any[]
 }
 
 export interface ServicePortalModuleRoute {
-  group?: 'action' | 'information'
+  group?: 'action' | 'information' | 'hidden' | 'child'
   label: string
   path: string
   scope: string[]
@@ -19,12 +11,34 @@ export interface ServicePortalModuleRoute {
   navItems?: Array<ServicePortalModuleRoute>
 }
 
-export type ServicePortalModuleProps = FC<ServicePortalModule>
+// export interface ServicePortalModule {
+//   (scope: Array<Scope>): {
+//     component: React.FC<any>
+//     dashboard: React.Component[]
+//     navItems: any[]
+//   }
+// }
 
-export interface ServicePortalModule {
-  (scope: Array<string>): {
-    component: React.FC<any>
-    dashboard: React.Component[]
-    navItems: ServicePortalNavItem[]
+export interface ServicePortalComponent {
+  availableScope: Array<Scope>
+  component: React.ExoticComponent<any>
+}
+
+export interface ServicePortalScreen {
+  (scope: Array<Scope>): {
+    availableScope: Array<Scope>
+    Component: React.FC<any>
+    navigation: {
+      group?: 'action' | 'information' | 'hidden' | 'child'
+      label: string
+      path: string
+    }
   }
+}
+
+export interface ServicePortalPageNavigation {
+  group?: 'action' | 'information' | 'hidden' | 'child'
+  label: string
+  path: string
+  children?: Array<ServicePortalPageNavigation>
 }

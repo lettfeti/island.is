@@ -45,14 +45,14 @@
       "@island.is/gjafakort/types": ["libs/gjafakort/types/src/index.ts"],
       "@island.is/gjafakort/consts": ["libs/gjafakort/consts/src/index.ts"],
       "@island.is/island-ui/theme": ["libs/island-ui/theme/src/index.ts"],
-      "@island.is/service-portal/modules": [
-        "libs/service-portal/modules/src/index.ts"
-      ],
-      "@island.is/service-portal/modules/*": [
-        "libs/service-portal/modules/src/*"
+      "@island.is/service-portal/core/*": [
+        "libs/service-portal/core/src/lib/*"
       ],
       "@island.is/service-portal/types": [
         "libs/service-portal/types/src/index.ts"
+      ],
+      "@island.is/service-portal/classes": [
+        "libs/service-portal/classes/src/index.ts"
       ]
     }
   },
