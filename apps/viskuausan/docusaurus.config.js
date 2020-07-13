@@ -7,6 +7,7 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'island-is', // Usually your GitHub org/user name.
   projectName: 'viskuausan', // Usually your repo name.
+  plugins: ['webpack-loaders'],
   themeConfig: {
     disableDarkMode: true,
     defaultDarkMode: false,

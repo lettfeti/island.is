@@ -115,6 +115,7 @@
     "timeout-signal": "1.0.0",
     "treat": "1.4.1",
     "uuidv4": "6.0.8",
+    "webpack-loaders": "file:./apps/viskuausan/plugins/webpack-loaders",
     "winston": "3.2.1",
     "xstate": "4.10.0",
     "yup": "0.29.0"
@@ -175,6 +176,7 @@
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-react-hooks": "2.3.0",
     "jest": "25.2.3",
+    "mini-css-extract-plugin": "^0.9.0",
     "next-transpile-modules": "^3.3.0",
     "prettier": "1.19.1",
     "quicktype": "15.0.245",

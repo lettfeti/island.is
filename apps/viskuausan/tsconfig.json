@@ -11,7 +11,9 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noImplicitAny": true
+    "baseUrl": "../../"
+    //"noImplicitAny": true
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  //"include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+  "include": ["src/"]
 }
