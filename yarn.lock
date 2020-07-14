@@ -21332,7 +21332,7 @@ webpack-hot-middleware@2.25.0, webpack-hot-middleware@^2.25.0:
     strip-ansi "^3.0.0"
 
 "webpack-loaders@file:./apps/viskuausan/plugins/webpack-loaders":
-  version "0.0.2-alpha.2"
+  version "0.0.1"
 
 webpack-log@^2.0.0:
   version "2.0.0"

@@ -16,9 +16,9 @@ import AnnouncementBar from '@theme/AnnouncementBar'
 import Navbar from '@theme/Navbar'
 //import Footer from '@theme/Footer';
 
-/* Probably need ts-loader in webpack, but think we should wait for next
+/* Probably need the ts-loader in webpack, but think we should wait for next
    next release of docusaurus before experimenting more with this. The
-   latter import works for now.*/
+   latter import works for now. -- SMA */
 //import { Footer } from '@island.is/island-ui/core'
 import { Footer } from '../../../../../libs/island-ui/core/src'
 
