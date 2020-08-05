@@ -29,7 +29,8 @@
           "options": {
             "buildTarget": "web:build",
             "dev": true,
-            "proxyConfig": "apps/web/proxy.config.json"
+            "proxyConfig": "apps/web/proxy.config.json",
+            "customServerPath": "server.js"
           },
           "configurations": {
             "production": {
