@@ -5,11 +5,11 @@ import { useStore } from '../../store/stateProvider'
 import ModuleLoadingScreen from './ModuleLoadingScreen'
 import ModuleErrorScreen, { ModuleErrorBoundary } from './ModuleErrorScreen'
 import { Box } from '@island.is/island-ui/core'
-import { JwtToken } from '../../mirage-server/models/jwt-model'
+import { JwtPayload } from '../../mirage-server/models/jwt-model'
 
 const ModuleLoader: FC<{
   module: ServicePortalModule
-  userInfo: JwtToken
+  userInfo: JwtPayload
 }> = React.memo(({ module, userInfo }) => {
   const App = module.render(userInfo)
 

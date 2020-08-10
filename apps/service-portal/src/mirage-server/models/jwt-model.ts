@@ -4,17 +4,25 @@ import { addHours, format } from 'date-fns'
 //@ts-ignore
 import * as jwt from 'webcrypto-jwt'
 
-export class JwtToken {
+export interface JwtPayload {
   actor: ActorDto
   sub: SubjectDto
+  scope: string[]
+  exp: string
+  iat: string
+}
+
+export class JwtToken implements JwtPayload {
+  actor: ActorDto
+  sub: SubjectDto
+  scope: string[]
   exp: string
   iat: string
 
-  constructor(actor: Actor, subject: Subject) {
+  constructor(actor: Actor, subject: Subject, scope: string[]) {
     const sub: SubjectDto = {
       name: subject.name,
       nationalId: subject.nationalId,
-      scope: subject.scope,
       subjectType: subject.subjectType,
     }
 
@@ -23,6 +31,7 @@ export class JwtToken {
       nationalId: actor.nationalId,
     }
 
+    this.scope = scope
     this.actor = act
     this.sub = sub
     const issueDate: Date = new Date()
@@ -59,4 +68,7 @@ export class JwtUtils {
   static async parseJwt(token: string): Promise<JwtToken> {
     return await jwt.parseJWT(token)
   }
+
+
+
 }

@@ -7,14 +7,15 @@ import {
 import { SubjectListDto } from '../mirage-server/models/subject'
 import { MOCK_AUTH_KEY } from '@island.is/service-portal/constants'
 import jwtDecode from 'jwt-decode'
-import { JwtToken } from '../mirage-server/models/jwt-model'
+import { JwtPayload } from '../mirage-server/models/jwt-model'
 import { modules } from './modules'
 
 type NotificationSidebarState = 'open' | 'closed'
 
 export type Action =
   | { type: 'setUserPending' }
-  | { type: 'setUserFulfilled'; payload: JwtToken }
+  | { type: 'setuserLoggedOut' }
+  | { type: 'setUserFulfilled'; payload: JwtPayload; token: string }
   | { type: 'fetchNavigationPending' }
   | { type: 'fetchNavigationFulfilled'; payload: ServicePortalNavigationRoot[] }
   | { type: 'fetchNavigationFailed' }
@@ -26,7 +27,8 @@ export type Action =
 export type AsyncActionState = 'passive' | 'pending' | 'fulfilled' | 'failed'
 
 export interface StoreState {
-  userInfo: JwtToken | null
+  userInfo: JwtPayload | null
+  accessToken: string | null
   userInfoState: AsyncActionState
   modules: ServicePortalModule[]
   navigation: ServicePortalNavigationRoot[]
@@ -39,8 +41,9 @@ export interface StoreState {
 const authCookie = Cookies.get(MOCK_AUTH_KEY) as string
 
 export const initialState: StoreState = {
-  userInfo: authCookie ? jwtDecode(authCookie) : null,
+  userInfo: null,
   userInfoState: 'passive',
+  accessToken: '',
   modules: modules,
   navigation: [],
   navigationState: 'passive',
@@ -60,8 +63,14 @@ export const reducer = (state: StoreState, action: Action): StoreState => {
       return {
         ...state,
         userInfo: action.payload,
+        accessToken: action.token,
         userInfoState: 'fulfilled',
       }
+    case 'setuserLoggedOut':
+      return {
+      ...initialState
+      }
+
     case 'fetchNavigationPending':
       return {
         ...state,

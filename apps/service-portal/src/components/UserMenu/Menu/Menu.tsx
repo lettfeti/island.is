@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 import * as styles from './Menu.treat'
 // eslint-disable-next-line
-import { JwtToken } from 'apps/service-portal/src/mirage-server/models/jwt-model'
+import { JwtToken, JwtPayload } from 'apps/service-portal/src/mirage-server/models/jwt-model'
 // eslint-disable-next-line
 import { SubjectListDto } from 'apps/service-portal/src/mirage-server/models/subject'
 import {
@@ -20,10 +20,11 @@ import { MOCK_AUTH_KEY } from '@island.is/service-portal/constants'
 
 interface Props {
   isOpen: boolean
-  userInfo: JwtToken
+  userInfo: JwtPayload
   subjectList: SubjectListDto[]
   onSubjectSelection: (subjectNationalId: string) => void
-  onCloseMenu: () => void
+  onCloseMenu: () => void,
+  logoutUser: () => void,
 }
 
 export const Menu: FC<Props> = ({
@@ -31,16 +32,14 @@ export const Menu: FC<Props> = ({
   subjectList,
   onSubjectSelection,
   onCloseMenu,
+  logoutUser,
 }) => {
   const personSubjects = subjectList.filter((x) => x.subjectType === 'person')
   const companySubjects = subjectList.filter((x) => x.subjectType === 'company')
   const history = useHistory()
 
-  const handleLogout = async () => {
-    await removeToken()
-    // TODO: Loading state, Hard reload?
-    localStorage.removeItem(MOCK_AUTH_KEY)
-    history.push('/innskraning')
+  const handleLogout = () => {
+    logoutUser();
   }
 
   return (

@@ -14,7 +14,7 @@ const UserMenu: FC<{}> = () => {
   const history = useHistory()
   const [{ userInfo }] = useStore()
   const { subjectList } = useSubjects()
-  const { setUser } = useUserInfo()
+  const { setUser, logoutUser } = useUserInfo()
 
   useOutsideClick(ref, () => setIsOpen(false))
 
@@ -37,6 +37,7 @@ const UserMenu: FC<{}> = () => {
         </Box>
       </button>
       <Menu
+      logoutUser={logoutUser}
         isOpen={isOpen}
         userInfo={userInfo}
         onSubjectSelection={handleSelection}

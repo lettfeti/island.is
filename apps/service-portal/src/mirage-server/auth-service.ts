@@ -1,6 +1,7 @@
 import { Actor } from './models/actor'
 import Db from 'miragejs/db'
 import { Subject, SubjectListDto } from './models/subject'
+import { RefreshToken } from './models/refresh-token'
 
 export class AuthService {
   private db: Db
@@ -34,16 +35,42 @@ export class AuthService {
     })
   }
 
-  public getSubjectForActor(actor: Actor): Subject {
+  public getSubjectForActor(actor: Actor, subjectNationalId: string): Subject {
     const availableSubjectEntities: Subject[] = actor.subjectIds.map(
       (x: number) => {
         return this.db.subjects.find(x) as Subject
       },
     )
     const subjectEntity = availableSubjectEntities.find(
-      (x) => x.nationalId === actor.nationalId,
+      (x) => x.nationalId === subjectNationalId,
     )
 
     return subjectEntity
+  }
+
+  public getScopesForSession(actor: Actor, subject: Subject): string[] {
+    return []
+  }
+
+  public getRefreshToken(uuid: string): RefreshToken {
+    const rawRefreshTokens = window.localStorage.getItem('mirageDB_refreshTokens') || JSON.stringify([]);
+    const refreshTokens = JSON.parse(rawRefreshTokens);
+    const tokenEntity = refreshTokens.find(
+      (x: RefreshToken) => x.payload === uuid
+    ) as RefreshToken
+    if(!tokenEntity) return null
+    const refreshToken = Object.assign(new RefreshToken(), tokenEntity)
+    return refreshToken
+  }
+
+  public createRefreshToken(nationalId: string): RefreshToken {
+    const newToken = new RefreshToken(nationalId)
+    const rawRefreshTokens = window.localStorage.getItem('mirageDB_refreshTokens') || JSON.stringify([]);
+    const refreshTokens = JSON.parse(rawRefreshTokens);
+    refreshTokens.push(newToken);
+    window.localStorage.setItem('mirageDB_refreshTokens', JSON.stringify(refreshTokens));
+    console.log('create refersh tokne ')
+    console.log((this.db.dump()))
+    return newToken
   }
 }

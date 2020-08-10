@@ -15,7 +15,7 @@ export default [
   },
   {
     id: 3,
-    name: 'Ólafur Darri Égmaniggihvaðson',
+    name: 'Ólafur Darri',
     nationalId: '5555555555',
     subjectIds: [2],
   },
