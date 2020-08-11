@@ -1,6 +1,6 @@
 import { Actor, ActorDto } from './actor'
 import { Subject, SubjectDto } from './subject'
-import { addHours, format } from 'date-fns'
+import { addHours, format, addSeconds } from 'date-fns'
 //@ts-ignore
 import * as jwt from 'webcrypto-jwt'
 
@@ -36,7 +36,7 @@ export class JwtToken implements JwtPayload {
     this.sub = sub
     const issueDate: Date = new Date()
     this.iat = format(issueDate, 'T')
-    this.exp = format(addHours(issueDate, 2), 'T')
+    this.exp = format(addSeconds(issueDate, 10), 'T')
   }
 
   public signJwt(secret: string): Promise<string> {
@@ -50,25 +50,4 @@ export class JwtToken implements JwtPayload {
       })
     })
   }
-}
-
-export class JwtUtils {
-  static async isValidJwt(token: string, secret: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      jwt.verifyJWT(token, secret, 'HS256', function(
-        err: any,
-        isValid: boolean | PromiseLike<boolean>,
-      ) {
-        if (err) reject(err)
-        resolve(isValid)
-      })
-    })
-  }
-
-  static async parseJwt(token: string): Promise<JwtToken> {
-    return await jwt.parseJWT(token)
-  }
-
-
-
 }

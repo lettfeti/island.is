@@ -13,13 +13,24 @@ export const Authenticator: FC<AuthenticatorProps> = ({
   children,
   ...rest
 }) => {
-  const {isAuthenticated, refreshUser, userInfoState} = useUserInfo();
+  const {isAuthenticated, refreshUser, userInfoState, logoutUser} = useUserInfo();
   const refreshToken = Cookies.get(MOCK_AUTH_KEY);
+
   useEffect(() => {
+    const syncLogout = ({key}) => {
+      if(key === 'logout') {
+        logoutUser();
+      }
+    }
     if(!isAuthenticated && refreshToken) {
       refreshUser();
     }
+    window.addEventListener('storage', syncLogout)
+    return () => {
+      window.removeEventListener('storage', syncLogout);
+    }
   }, [])
+
 
   return (
     <Route

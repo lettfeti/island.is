@@ -63,14 +63,13 @@ export class AuthService {
     return refreshToken
   }
 
-  public createRefreshToken(nationalId: string): RefreshToken {
-    const newToken = new RefreshToken(nationalId)
+  public createRefreshToken(nationalId: string, subjectNationalId: string): RefreshToken {
+    const newToken = new RefreshToken(nationalId, subjectNationalId)
     const rawRefreshTokens = window.localStorage.getItem('mirageDB_refreshTokens') || JSON.stringify([]);
     const refreshTokens = JSON.parse(rawRefreshTokens);
     refreshTokens.push(newToken);
     window.localStorage.setItem('mirageDB_refreshTokens', JSON.stringify(refreshTokens));
-    console.log('create refersh tokne ')
-    console.log((this.db.dump()))
+
     return newToken
   }
 }

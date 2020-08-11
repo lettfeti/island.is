@@ -14,13 +14,13 @@ const UserMenu: FC<{}> = () => {
   const history = useHistory()
   const [{ userInfo }] = useStore()
   const { subjectList } = useSubjects()
-  const { setUser, logoutUser } = useUserInfo()
+  const { tokenExchange, logoutUser } = useUserInfo()
 
   useOutsideClick(ref, () => setIsOpen(false))
 
   const handleSelection = async (subjectNationalId: string) => {
     setIsOpen(false)
-    await setUser(userInfo.actor.nationalId, subjectNationalId)
+    await tokenExchange(subjectNationalId)
     history.push('/')
   }
 

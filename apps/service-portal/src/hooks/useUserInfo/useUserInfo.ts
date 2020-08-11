@@ -1,5 +1,5 @@
 import { useStore } from '../../store/stateProvider'
-import { setUserToken, renewToken } from '../../auth/utils'
+import { setUserToken, renewToken, exchangeToken } from '../../auth/utils'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'js-cookie'
 import { MOCK_AUTH_KEY } from '@island.is/service-portal/constants'
@@ -8,20 +8,31 @@ const useUserInfo = () => {
   const [{ userInfo, userInfoState }, dispatch] = useStore();
   const refreshUser = async() => {
     try {
-      console.log('IM HERERE');
       dispatch({type: 'setUserPending'});
       const {token} = await renewToken();
-      console.log('GOT TOKEN');
       dispatch({
         type: 'setUserFulfilled',
         payload: jwtDecode(token),
         token: token,
       })
-      console.log('DISPATCHED USER')
     } catch (error) {
       logoutUser();
     }
   }
+  const tokenExchange = async (subjectNationalId:string) => {
+      dispatch({type: 'setUserPending'})
+      try {
+        const {token} = await exchangeToken(subjectNationalId)
+        dispatch({
+          type: 'setUserFulfilled',
+          payload: jwtDecode(token),
+          token: token,
+        })
+      } catch (error) {
+        alert(error)
+      }
+  }
+
   const setUser = async (
     actorNationalId?: string,
     subjectNationalId?: string,
@@ -29,8 +40,8 @@ const useUserInfo = () => {
     async function fetchUserInfo() {
       dispatch({
         type: 'setUserPending',
-      })
-      console.log('user info')
+       })
+
       const updatedInfo = await setUserToken(
         actorNationalId || userInfo?.actor?.nationalId,
         subjectNationalId,
@@ -50,6 +61,7 @@ const useUserInfo = () => {
   const logoutUser = () => {
     Cookies.remove(MOCK_AUTH_KEY);
     dispatch({type: 'setuserLoggedOut'})
+    localStorage.setItem('logout', (new Date()).toString())
   }
 
   return {
@@ -58,7 +70,8 @@ const useUserInfo = () => {
     setUser,
     logoutUser,
     isAuthenticated: !!userInfo,
-    refreshUser
+    refreshUser,
+    tokenExchange
   }
 }
 

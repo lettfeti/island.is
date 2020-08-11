@@ -26,13 +26,8 @@ export const setUserToken = async (
       subjectNationalId,
     }),
   })
-  //const expirationTime = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+
   const retToken = await token.json()
- // console.log('Frontend cookie', Cookies.get('refresh_token'))
-  //Cookies.set(MOCK_AUTH_KEY, retToken.token, {
-   // sameSite: 'lax',
-   // expires: expirationTime,
-  //})
 
   return retToken
 }
@@ -48,15 +43,25 @@ export const renewToken = async (): Promise<MockToken> => {
       refresh_token : refreshToken
     }),
   })
-  console.log('I GOT TOKEN')
-  console.log(token);
-  //const expirationTime = new Date(new Date().getTime() + 8 * 60 * 60 * 1000)
+
   const retToken = await token.json()
- // console.log('Frontend cookie', Cookies.get('refresh_token'))
-  //Cookies.set(MOCK_AUTH_KEY, retToken.token, {
-   // sameSite: 'lax',
-   // expires: expirationTime,
-  //})
+
+  return retToken
+}
+
+export const exchangeToken = async (subjectNationalId: string): Promise<MockToken> => {
+  const refreshToken: string = Cookies.get(MOCK_AUTH_KEY)
+  const token = await fetch(`/user/tokenexchange/${subjectNationalId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      refresh_token : refreshToken
+    }),
+  })
+
+  const retToken = await token.json()
 
   return retToken
 }
