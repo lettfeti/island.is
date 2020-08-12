@@ -5,13 +5,10 @@ import actorSubjectScopes  from './src/mirage-server/fixtures/actor-subject-scop
 import { JwtToken } from './src/mirage-server/models/jwt-model'
 import { Actor } from './src/mirage-server/models/actor'
 import { AuthService } from './src/mirage-server/auth-service'
-import { Subject } from './src/mirage-server/models/subject'
 import { RefreshToken } from './src/mirage-server/models/refresh-token'
 import Cookies from 'js-cookie'
 import { MOCK_AUTH_KEY } from '@island.is/service-portal/constants'
 import { TokenFactory } from './src/mirage-server/token-factory'
-import { Token } from 'graphql'
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants'
 //import { createGraphQLHandler } from "@miragejs/graphql"
 
 export function makeServer({ environment = 'development' } = {}) {
@@ -79,7 +76,6 @@ export function makeServer({ environment = 'development' } = {}) {
 
         const refreshTokenEntity: RefreshToken = authService.getRefreshToken(refreshToken)
 
-        if(!refreshTokenEntity || refreshTokenEntity.isExpired()) return new Response(401)
 
         //check if has access
         const token = await tokenFactory.createSignedToken(refreshTokenEntity.nationalId, request.params.nationalId)
@@ -112,9 +108,7 @@ export function makeServer({ environment = 'development' } = {}) {
         server.timing = 1300
         return new Response(200, {}, [
           {
-            id: 1,
-            name: 'Greiðsluseðill (Bifr.gjöld) - Ríkissjóðsinnheimtur',
-          },
+            id: 1, name: 'Greiðsluseðill (Bifr.gjöld) - Ríkissjóðsinnheimtur', },
           { id: 2, name: 'Greiðsluseðill (Laun) - Ríkissjóðsinnheimtur' },
           { id: 3, name: 'Greiðsluseðill (Fasteignagjöld) - Ríkissjóðsinnheimtur' },
         ])

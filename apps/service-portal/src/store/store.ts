@@ -38,8 +38,6 @@ export interface StoreState {
   notificationSidebarState: NotificationSidebarState
 }
 
-const authCookie = Cookies.get(MOCK_AUTH_KEY) as string
-
 export const initialState: StoreState = {
   userInfo: null,
   userInfoState: 'passive',

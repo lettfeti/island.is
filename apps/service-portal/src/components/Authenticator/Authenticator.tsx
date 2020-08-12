@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { isAuthenticated } from '../../auth/utils'
 import useUserInfo from '../../hooks/useUserInfo/useUserInfo'
 import Cookies from 'js-cookie'
 import { MOCK_AUTH_KEY } from '@island.is/service-portal/constants'
@@ -13,7 +12,7 @@ export const Authenticator: FC<AuthenticatorProps> = ({
   children,
   ...rest
 }) => {
-  const {isAuthenticated, refreshUser, userInfoState, logoutUser} = useUserInfo();
+  const { isAuthenticated, refreshUser, logoutUser } = useUserInfo();
   const refreshToken = Cookies.get(MOCK_AUTH_KEY);
 
   useEffect(() => {
@@ -30,7 +29,6 @@ export const Authenticator: FC<AuthenticatorProps> = ({
       window.removeEventListener('storage', syncLogout);
     }
   }, [])
-
 
   return (
     <Route
