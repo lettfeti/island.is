@@ -12,15 +12,3 @@ export const bullet = style({
   display: 'inline-block',
   width: '32px',
 })
-
-export const textActive = style({
-  fontWeight: theme.typography.semiBold,
-})
-
-export const textPrevious = style({
-  fontWeight: theme.typography.semiBold,
-})
-
-export const textNext = style({
-  fontWeight: theme.typography.regular,
-})

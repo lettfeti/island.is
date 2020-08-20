@@ -3,7 +3,14 @@ import { Box } from '@island.is/island-ui/core'
 import * as styles from './Sidebar.treat'
 
 const Sidebar: FC<{ children: React.ReactNode }> = ({ children }) => (
-  <Box background="blue100" height="full" className={styles.root}>
+  <Box
+    background="purple100"
+    borderRadius="large"
+    paddingX={4}
+    paddingTop={3}
+    paddingBottom={2}
+    className={styles.root}
+  >
     {children}
   </Box>
 )

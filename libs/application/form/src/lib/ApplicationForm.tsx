@@ -56,14 +56,11 @@ const ApplicationFormBody: FC<ApplicationProps> = ({
         <Column width="3/12">
           <Sidebar>
             <ApplicationName name={form.name} icon={form.icon} />
-            <Box display="flex" flexDirection={['column', 'columnReverse']}>
-              <FormProgress
-                sections={sections}
-                activeSection={activeSection}
-                activeSubSection={activeSubSection}
-              />
-              <ProgressIndicator progress={progress} />
-            </Box>
+            <FormProgress
+              sections={sections}
+              activeSection={activeSection}
+              activeSubSection={activeSubSection}
+            />
           </Sidebar>
         </Column>
 
@@ -71,7 +68,7 @@ const ApplicationFormBody: FC<ApplicationProps> = ({
 
         <Column width="8/12">
           <Box
-            borderRadius="standard"
+            borderRadius="large"
             paddingX={[3, 3, 12]}
             paddingTop={4}
             height="full"

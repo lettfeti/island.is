@@ -8,14 +8,7 @@ const ApplicationName: FC<{ name: string; icon?: string }> = ({
   icon,
 }) => {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      paddingTop={[2, 2, 4]}
-      paddingBottom={[2, 2, 4]}
-      paddingLeft={[3, 3, 5]}
-      className={styles.root}
-    >
+    <Box display="flex" alignItems="center" className={styles.root}>
       {icon && <img src={icon} alt="application-icon" />}
       <Box marginLeft={icon ? 1 : 0}>
         <Typography variant="h4">{name}</Typography>

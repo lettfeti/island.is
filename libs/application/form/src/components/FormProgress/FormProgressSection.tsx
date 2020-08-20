@@ -41,8 +41,8 @@ const FormProgressSection: FC<{
   return (
     <Box
       ref={containerRef}
-      marginBottom={[0, 0, 2]}
-      paddingRight={[3, 3, 0]}
+      marginBottom={2}
+      paddingTop={2}
       className={styles.root}
       style={{
         marginLeft: isSmallScreen && isComplete ? `-${width}px` : '0',
@@ -53,8 +53,14 @@ const FormProgressSection: FC<{
         alignItems="flexStart"
         marginBottom={1}
         style={{ whiteSpace: 'nowrap' }}
+        position="relative"
       >
-        <Box padding={1} background="blue100" marginRight={3}>
+        <Box
+          padding={1}
+          marginRight={3}
+          position="absolute"
+          className={styles.sectionNumber}
+        >
           <SectionNumber
             currentState={
               isActive ? 'active' : isComplete ? 'previous' : 'next'
@@ -62,17 +68,13 @@ const FormProgressSection: FC<{
             number={sectionIndex + 1}
           />
         </Box>
-        <Box className={styles.sectionName}>
-          <Typography
-            variant="h4"
-            color={isActive || isComplete ? 'blue400' : 'dark200'}
-          >
-            {section.name}
-          </Typography>
-        </Box>
+        <Typography variant={isActive ? 'h4' : 'p'} color="dark400">
+          {!isActive && <span>{sectionIndex + 1}. </span>}
+          {section.name}
+        </Typography>
       </Box>
       {isActive && hasSubSections && (
-        <Box display={['none', 'none', 'block']} paddingLeft={1}>
+        <Box display="block">
           <BulletList>
             {subSections.map((subSection, i) => (
               <SubSectionItem

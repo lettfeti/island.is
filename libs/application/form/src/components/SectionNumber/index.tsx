@@ -10,27 +10,33 @@ interface SectionNumberProps {
 
 const SectionNumber: FC<SectionNumberProps> = ({ currentState, number }) => (
   <Box position="relative">
-    <Box
-      position="absolute"
-      display="flex"
-      alignItems="center"
-      textAlign="center"
-      background={
-        currentState === 'active'
-          ? 'blue400'
-          : currentState === 'previous'
-          ? 'blue400'
-          : 'blue300'
-      }
-      justifyContent="center"
-      pointerEvents="none"
-      className={styles.number}
-    >
-      {(currentState === 'previous' && (
-        <Icon type="check" color="white" width="16" height="16" />
-      )) ||
-        number}
-    </Box>
+    {(currentState === 'next' && (
+      <Box position="absolute" className={styles.bullet}>
+        <Icon type="bullet" color="purple200" width="8" height="8" />
+      </Box>
+    )) || (
+      <Box
+        position="absolute"
+        display="flex"
+        alignItems="center"
+        textAlign="center"
+        background={
+          currentState === 'active'
+            ? 'purple400'
+            : currentState === 'previous'
+            ? 'purple200'
+            : 'purple200'
+        }
+        justifyContent="center"
+        pointerEvents="none"
+        className={styles.number}
+      >
+        {(currentState === 'previous' && (
+          <Icon type="check" color="purple400" width="12" height="12" />
+        )) ||
+          number}
+      </Box>
+    )}
   </Box>
 )
 

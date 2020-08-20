@@ -16,34 +16,13 @@ export const SubSectionItem: FC<SubSectionItemProps> = ({
     as="span"
     color={
       currentState === 'active'
-        ? 'blue400'
+        ? 'purple400'
         : currentState === 'previous'
-        ? 'dark200'
+        ? 'dark400'
         : 'dark400'
     }
   >
-    <Box display="flex">
-      <Box display="flex">
-        <span className={styles.bullet}>
-          <span className={styles.icon}>
-            <Icon type="bullet" color="blue300" width="8" height="8" />
-          </span>
-        </span>
-      </Box>
-      <Box>
-        <span
-          className={
-            currentState === 'active'
-              ? styles.textActive
-              : currentState === 'previous'
-              ? styles.textPrevious
-              : styles.textNext
-          }
-        >
-          {children}
-        </span>
-      </Box>
-    </Box>
+    <Box>{children}</Box>
   </Typography>
 )
 
