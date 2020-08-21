@@ -10,6 +10,8 @@ import {
   Typography,
 } from '@island.is/island-ui/core'
 import { FieldBaseProps } from '../../../types'
+import TopQuestionContainer from '../../Question/TopQuestionContainer'
+import InputContainer from '../../Question/InputContainer'
 
 interface Props extends FieldBaseProps {
   field: CustomField
@@ -52,12 +54,17 @@ const ExampleCountryField: FC<Props> = ({ error, field, formValue }) => {
 
   return (
     <>
-      <Typography as={'p'}>
-        We can easily implement custom fields that might only be used in a
-        single application. You could render anything you like in these kinds of
-        fields.
-      </Typography>
-      <Box paddingTop={2}>
+      <TopQuestionContainer>
+        <Typography variant="h2" as={'p'}>
+          Custom Fields
+        </Typography>
+        <Typography variant="p" as={'p'}>
+          We can easily implement custom fields that might only be used in a
+          single application. You could render anything you like in these kinds
+          of fields.
+        </Typography>
+      </TopQuestionContainer>
+      <InputContainer>
         <Controller
           name={`${id}`}
           defaultValue=""
@@ -80,48 +87,61 @@ const ExampleCountryField: FC<Props> = ({ error, field, formValue }) => {
             )
           }}
         />
-      </Box>
-      {error && (
-        <Box color="red400" padding={2}>
-          <Typography variant="pSmall" color="red400">
-            {error}
-          </Typography>
-        </Box>
-      )}
-      {selectedCountry && (
-        <Box color="blue200" padding={4}>
+        {selectedCountry && (
           <Typography variant="p">
             {selectedCountry.value} is in {selectedCountry.region}
-          </Typography>{' '}
-        </Box>
-      )}
-      <Typography variant="p">
-        {' '}
-        You can even access the answers to past questions:{' '}
-      </Typography>
-      {Object.keys(formValue).map((k) => (
-        <Typography key={k} variant="p">
-          <strong>{k}:</strong> {formValue[k].toString()}
+          </Typography>
+        )}
+        {error && (
+          <Box color="red400" padding={2}>
+            <Typography variant="pSmall" color="red400">
+              {error}
+            </Typography>
+          </Box>
+        )}
+      </InputContainer>
+
+      <TopQuestionContainer>
+        <Typography variant="h4">
+          You can even access the answers to past questions:
         </Typography>
-      ))}
-      <Typography variant="p">
-        {' '}
-        And you can also manipulate other schema entries, this one is the first
-        question you already answered:
-      </Typography>
-      <Input
-        id={'person.name'}
-        name={'person.name'}
-        label={'Name again'}
-        ref={register}
-      />
-      <Typography variant="p">
-        {' '}
-        Finally, use hidden inputs to update form values with atypical UI
-        elements
-      </Typography>
-      <Button onClick={() => setAge(age + 1)}>+++Increment age+++ {age}</Button>
-      <input type="hidden" value={age} ref={register} name={'person.age'} />
+        <Box marginTop={2}>
+          {Object.keys(formValue).map((k) => (
+            <Typography key={k} variant="p">
+              <strong>{k}:</strong> {formValue[k].toString()}
+            </Typography>
+          ))}
+        </Box>
+      </TopQuestionContainer>
+
+      <TopQuestionContainer>
+        <Typography variant="h4">
+          And you can also manipulate other schema entries, this one is the
+          first question you already answered:
+        </Typography>
+      </TopQuestionContainer>
+      <InputContainer>
+        <Input
+          id={'person.name'}
+          name={'person.name'}
+          label={'Please confirm your name'}
+          ref={register}
+        />
+      </InputContainer>
+
+      <TopQuestionContainer>
+        <Typography variant="h4">
+          Finally, use hidden inputs to update form values with atypical UI
+          elements
+        </Typography>
+      </TopQuestionContainer>
+
+      <InputContainer>
+        <Button onClick={() => setAge(age + 1)}>
+          +++Increment age+++ {age}
+        </Button>
+        <input type="hidden" value={age} ref={register} name={'person.age'} />
+      </InputContainer>
     </>
   )
 }
