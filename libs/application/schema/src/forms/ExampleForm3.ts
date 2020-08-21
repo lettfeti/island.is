@@ -97,50 +97,50 @@ export const ExampleForm3: Form = buildForm({
               name: 'Name',
               required: true,
             }),
-            // buildCheckboxField({
-            //   id: 'historyCars',
-            //   name: 'Which cars have you driven before?',
-            //   required: false,
-            //   options: [
-            //     {
-            //       value: 'VW',
-            //       label: 'VW',
-            //       tooltip:
-            //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            //     },
-            //     {
-            //       value: 'Audi',
-            //       label: 'Audi',
-            //       tooltip:
-            //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            //     },
-            //     {
-            //       value: 'Porsche',
-            //       label: 'Porsche',
-            //       tooltip:
-            //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            //     },
-            //     {
-            //       value: 'Tesla',
-            //       label: 'Tesla',
-            //       tooltip:
-            //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            //     },
-            //     {
-            //       value: 'none',
-            //       label: 'None of these',
-            //       excludeOthers: true,
-            //     },
-            //   ],
-            // }),
-            // buildCustomField(
-            //   {
-            //     id: 'country',
-            //     name: 'Where are you from?',
-            //     component: CustomFieldComponents.Country,
-            //   },
-            //   {},
-            // ),
+            buildCheckboxField({
+              id: 'historyCars',
+              name: 'Which cars have you driven before?',
+              required: false,
+              options: [
+                {
+                  value: 'VW',
+                  label: 'VW',
+                  tooltip:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                },
+                {
+                  value: 'Audi',
+                  label: 'Audi',
+                  tooltip:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                },
+                {
+                  value: 'Porsche',
+                  label: 'Porsche',
+                  tooltip:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                },
+                {
+                  value: 'Tesla',
+                  label: 'Tesla',
+                  tooltip:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                },
+                {
+                  value: 'none',
+                  label: 'None of these',
+                  excludeOthers: true,
+                },
+              ],
+            }),
+            buildCustomField(
+              {
+                id: 'country',
+                name: 'Where are you from?',
+                component: CustomFieldComponents.Country,
+              },
+              {},
+            ),
           ],
         }),
         buildSubSection({
