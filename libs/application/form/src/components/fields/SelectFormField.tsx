@@ -17,7 +17,9 @@ const SelectFormField: FC<Props> = ({
   const { clearErrors } = useFormContext()
   return (
     <div>
-      {showFieldName && <Typography variant="p">{name}</Typography>}
+      <Box paddingX={[3, 3, 12]} marginBottom={6}>
+        <Typography variant="h2">{name}</Typography>
+      </Box>
       <Controller
         defaultValue=""
         name={id}

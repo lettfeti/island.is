@@ -14,7 +14,6 @@ import { ActionTypes } from '../reducer/ReducerTypes'
 import { Box, Column, Columns } from '@island.is/island-ui/core'
 import { client } from '../graphql/client'
 import * as styles from './ApplicationForm.treat'
-import ProgressIndicator from '../components/ProgressIndicator'
 
 type ApplicationProps = {
   form: Form
@@ -45,7 +44,6 @@ const ApplicationFormBody: FC<ApplicationProps> = ({
     activeSubSection,
     activeScreen,
     formValue,
-    progress,
     sections,
     screens,
   } = state
@@ -67,13 +65,6 @@ const ApplicationFormBody: FC<ApplicationProps> = ({
         <Column width="1/12">&nbsp;</Column>
 
         <Column width="8/12">
-          {/* <Box
-            borderRadius="large"
-            paddingX={[3, 3, 12]}
-            paddingTop={4}
-            height="full"
-            className={styles.screenContainer}
-          > */}
           <Screen
             answerQuestions={(payload) =>
               dispatch({ type: ActionTypes.ANSWER, payload })
