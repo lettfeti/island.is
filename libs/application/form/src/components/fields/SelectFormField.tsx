@@ -22,7 +22,12 @@ const SelectFormField: FC<Props> = ({
         defaultValue=""
         name={id}
         render={({ onChange, value }) => (
-          <Box paddingTop={2}>
+          <Box
+            paddingY={6}
+            paddingX={[3, 3, 12]}
+            marginTop={6}
+            background="blue100"
+          >
             <Select
               hasError={error !== undefined}
               errorMessage={error}

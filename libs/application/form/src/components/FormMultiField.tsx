@@ -12,7 +12,7 @@ const FormMultiField: FC<{
   return (
     <div>
       {multiField.children.map((field, index) => (
-        <Box key={field.id} paddingTop={2}>
+        <Box key={field.id}>
           <FormField
             showFieldName
             field={field}

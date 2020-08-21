@@ -23,9 +23,11 @@ const RadioFormField: FC<Props> = ({
   const { id, name, options } = field
   const { clearErrors, setValue } = useFormContext()
   return (
-    <div>
-      {showFieldName && <Typography variant="p">{name}</Typography>}
-      <Box paddingTop={2}>
+    <>
+      <Box paddingX={[3, 3, 12]} marginBottom={6}>
+        <Typography variant="h2">{name}</Typography>
+      </Box>
+      <Box paddingY={6} paddingX={[3, 3, 12]} background="blue100">
         <Controller
           name={`${id}`}
           defaultValue={getValueViaPath(formValue, id)}
@@ -67,7 +69,7 @@ const RadioFormField: FC<Props> = ({
           }}
         />
       </Box>
-    </div>
+    </>
   )
 }
 

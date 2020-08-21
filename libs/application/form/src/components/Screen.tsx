@@ -125,9 +125,13 @@ const Screen: FC<ScreenProps> = ({
           formValue={formValue}
           screen={screen}
         />
-        <Box flexGrow={1}>
-          {section && <Typography color="dark300">{section.name}</Typography>}
-          <Typography variant="h2">{screen.name}</Typography>
+        <Box
+          flexGrow={1}
+          borderRadius="large"
+          paddingTop={4}
+          height="full"
+          border="standard"
+        >
           <Box>
             {screen.type === FormItemTypes.REPEATER ? (
               <FormRepeater
@@ -152,7 +156,6 @@ const Screen: FC<ScreenProps> = ({
           </Box>
         </Box>
         <Box marginTop={[3, 3, 0]}>
-          <Divider weight="regular" />
           <Box
             display="flex"
             flexDirection="row"
@@ -161,7 +164,7 @@ const Screen: FC<ScreenProps> = ({
             paddingBottom={[1, 5]}
           >
             <Box display="inlineFlex" padding={2} paddingLeft="none">
-              <Button variant="text" leftIcon="arrowLeft" onClick={goBack}>
+              <Button variant="ghost" leftIcon="arrowLeft" onClick={goBack}>
                 Til baka
               </Button>
             </Box>
@@ -178,7 +181,7 @@ const Screen: FC<ScreenProps> = ({
                 <Button
                   loading={loading || createPending}
                   disabled={loading || createPending}
-                  variant="text"
+                  variant="normal"
                   icon="arrowRight"
                   htmlType="submit"
                 >

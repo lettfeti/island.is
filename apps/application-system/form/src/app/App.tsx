@@ -12,8 +12,8 @@ export const App = () => {
   return (
     <Box className={styles.root}>
       <Route path="/">
-        <Box paddingLeft={[3, 3, 5]}>
-          <Header />
+        <Box paddingX={[3, 3, 5]} marginBottom={[3, 3, 10]}>
+          <Header authenticated userName="Jóna Sigurðardóttir" />
         </Box>
         <ApplicationForm form={ExampleForm3} initialAnswers={{}} />
       </Route>

@@ -67,30 +67,30 @@ const ApplicationFormBody: FC<ApplicationProps> = ({
         <Column width="1/12">&nbsp;</Column>
 
         <Column width="8/12">
-          <Box
+          {/* <Box
             borderRadius="large"
             paddingX={[3, 3, 12]}
             paddingTop={4}
             height="full"
             className={styles.screenContainer}
-          >
-            <Screen
-              answerQuestions={(payload) =>
-                dispatch({ type: ActionTypes.ANSWER, payload })
-              }
-              dataSchema={form.schema}
-              formTypeId={form.id}
-              formValue={formValue}
-              expandRepeater={() =>
-                dispatch({ type: ActionTypes.EXPAND_REPEATER })
-              }
-              nextScreen={() => dispatch({ type: ActionTypes.NEXT_SCREEN })}
-              prevScreen={() => dispatch({ type: ActionTypes.PREV_SCREEN })}
-              shouldSubmit={activeScreen === screens.length - 1}
-              screen={screens[activeScreen]}
-              section={sections[activeSection]}
-            />
-          </Box>
+          > */}
+          <Screen
+            answerQuestions={(payload) =>
+              dispatch({ type: ActionTypes.ANSWER, payload })
+            }
+            dataSchema={form.schema}
+            formTypeId={form.id}
+            formValue={formValue}
+            expandRepeater={() =>
+              dispatch({ type: ActionTypes.EXPAND_REPEATER })
+            }
+            nextScreen={() => dispatch({ type: ActionTypes.NEXT_SCREEN })}
+            prevScreen={() => dispatch({ type: ActionTypes.PREV_SCREEN })}
+            shouldSubmit={activeScreen === screens.length - 1}
+            screen={screens[activeScreen]}
+            section={sections[activeSection]}
+          />
+          {/* </Box> */}
         </Column>
       </Columns>
     </Box>
