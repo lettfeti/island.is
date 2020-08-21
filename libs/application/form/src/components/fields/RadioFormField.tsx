@@ -10,6 +10,8 @@ import {
 import { FieldBaseProps } from '../../types'
 import { useFormContext, Controller } from 'react-hook-form'
 import { getValueViaPath } from '../../utils'
+import InputContainer from '../Question/InputContainer'
+import TopQuestionContainer from '../Question/TopQuestionContainer'
 
 interface Props extends FieldBaseProps {
   field: RadioField
@@ -24,10 +26,10 @@ const RadioFormField: FC<Props> = ({
   const { clearErrors, setValue } = useFormContext()
   return (
     <>
-      <Box paddingX={[3, 3, 12]} marginBottom={6}>
+      <TopQuestionContainer>
         <Typography variant="h2">{name}</Typography>
-      </Box>
-      <Box paddingY={6} paddingX={[3, 3, 12]} background="blue100">
+      </TopQuestionContainer>
+      <InputContainer>
         <Controller
           name={`${id}`}
           defaultValue={getValueViaPath(formValue, id)}
@@ -55,11 +57,7 @@ const RadioFormField: FC<Props> = ({
                     />
                     {option.tooltip && (
                       <Box marginLeft={1}>
-                        <Tooltip
-                          colored={true}
-                          placement="top"
-                          text={option.tooltip}
-                        />
+                        <Tooltip placement="top" text={option.tooltip} />
                       </Box>
                     )}
                   </Box>
@@ -68,7 +66,7 @@ const RadioFormField: FC<Props> = ({
             )
           }}
         />
-      </Box>
+      </InputContainer>
     </>
   )
 }

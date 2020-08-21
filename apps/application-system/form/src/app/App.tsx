@@ -22,27 +22,29 @@ export const App = () => {
         <Box paddingX={[3, 3, 5]}>
           <Header authenticated userName="Jóna Sigurðardóttir" />
         </Box>
-        <Columns>
-          <Column width="1/12">&nbsp;</Column>
-          <Column width="6/12">
-            <Box paddingY="containerGutter">
-              <Box paddingY="gutter">
-                <Breadcrumbs>
-                  <span>Ísland.is</span>
-                  <a href="/">Applications</a>
-                  <a href="/">Driver's License</a>
-                </Breadcrumbs>
+        <Box paddingX={5}>
+          <Columns collapseBelow="md">
+            <Column width="1/12">&nbsp;</Column>
+            <Column width="6/12">
+              <Box paddingY="containerGutter">
+                <Box paddingY="gutter">
+                  <Breadcrumbs>
+                    <span>Ísland.is</span>
+                    <a href="/">Applications</a>
+                    <a href="/">Driver's License</a>
+                  </Breadcrumbs>
+                </Box>
+                <Typography variant="h1">
+                  Application for driving lessons
+                </Typography>
+                <Typography variant="intro">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  ut neque blandit, gravida ex eu, pulvinar nisi.
+                </Typography>
               </Box>
-              <Typography variant="h1">
-                Application for driving lessons
-              </Typography>
-              <Typography variant="intro">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                ut neque blandit, gravida ex eu, pulvinar nisi.
-              </Typography>
-            </Box>
-          </Column>
-        </Columns>
+            </Column>
+          </Columns>
+        </Box>
         <ApplicationForm form={ExampleForm3} initialAnswers={{}} />
       </Route>
     </Box>

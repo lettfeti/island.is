@@ -49,7 +49,7 @@ const ApplicationFormBody: FC<ApplicationProps> = ({
   } = state
 
   return (
-    <Box paddingX={[5, 5]} flexGrow={1}>
+    <Box paddingX={5} flexGrow={1}>
       <Columns reverse collapseBelow="md">
         <Column width="3/12">
           <Sidebar>

@@ -3,6 +3,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { SelectField } from '@island.is/application/schema'
 import { Typography, Select, Option, Box } from '@island.is/island-ui/core'
 import { FieldBaseProps } from '../../types'
+import InputContainer from '../Question/InputContainer'
+import TopQuestionContainer from '../Question/TopQuestionContainer'
 
 interface Props extends FieldBaseProps {
   field: SelectField
@@ -17,19 +19,14 @@ const SelectFormField: FC<Props> = ({
   const { clearErrors } = useFormContext()
   return (
     <div>
-      <Box paddingX={[3, 3, 12]} marginBottom={6}>
+      <TopQuestionContainer>
         <Typography variant="h2">{name}</Typography>
-      </Box>
+      </TopQuestionContainer>
       <Controller
         defaultValue=""
         name={id}
         render={({ onChange, value }) => (
-          <Box
-            paddingY={6}
-            paddingX={[3, 3, 12]}
-            marginTop={6}
-            background="blue100"
-          >
+          <InputContainer>
             <Select
               hasError={error !== undefined}
               errorMessage={error}
@@ -43,7 +40,7 @@ const SelectFormField: FC<Props> = ({
                 onChange((newVal as Option).value)
               }}
             />
-          </Box>
+          </InputContainer>
         )}
       />
     </div>

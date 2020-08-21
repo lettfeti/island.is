@@ -3,6 +3,8 @@ import { TextField } from '@island.is/application/schema'
 import { Box, Input, Typography } from '@island.is/island-ui/core'
 import { FieldBaseProps } from '../../types'
 import { useFormContext } from 'react-hook-form'
+import InputContainer from '../Question/InputContainer'
+import TopQuestionContainer from '../Question/TopQuestionContainer'
 
 interface Props extends FieldBaseProps {
   field: TextField
@@ -12,10 +14,10 @@ const TextFormField: FC<Props> = ({ autoFocus, error, field, register }) => {
   const { clearErrors } = useFormContext()
   return (
     <>
-      <Box paddingX={[3, 3, 12]} marginBottom={6}>
+      <TopQuestionContainer>
         <Typography variant="h2">{name}</Typography>
-      </Box>
-      <Box paddingY={6} paddingX={[3, 3, 12]} background="blue100">
+      </TopQuestionContainer>
+      <InputContainer>
         <Input
           id={id}
           name={id}
@@ -30,7 +32,7 @@ const TextFormField: FC<Props> = ({ autoFocus, error, field, register }) => {
             }
           }}
         />
-      </Box>
+      </InputContainer>
     </>
   )
 }
