@@ -20,7 +20,7 @@ export const App = () => {
     <Box className={styles.root}>
       <Route path="/">
         <Box paddingX={[3, 3, 5]}>
-          <Header authenticated userName="Jóna Sigurðardóttir" />
+          <Header authenticated language="En" userName="Jóna Sigurðardóttir" />
         </Box>
         <Box paddingX={5}>
           <Columns collapseBelow="md">
