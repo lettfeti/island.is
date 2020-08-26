@@ -12,12 +12,12 @@ import Modules from '../components/Modules/Modules'
 import * as styles from './App.treat'
 import OidcSignIn from '../components/Authenticator/OidcSignIn'
 import OidcSilentSignIn from '../components/Authenticator/OidcSilentSignIn'
+import OidcSignOut from '../components/Authenticator/OidcSignOut'
 import { ServicePortalPath } from '@island.is/service-portal/core'
 import './App.css'
 
 export const App = () => {
   makeServer()
-
   return (
     <div className={styles.page}>
       <Router>
@@ -36,6 +36,11 @@ export const App = () => {
                 exact
                 path={ServicePortalPath.MinarSidurSilentSignInOidc}
                 component={OidcSilentSignIn}
+              />
+              <Route
+                exact
+                path={ServicePortalPath.MinarSidurSignOutOidc}
+                component={OidcSignOut}
               />
               <Route>
                 <Authenticator>

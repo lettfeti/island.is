@@ -7,82 +7,81 @@ import { AuthService } from './src/mirage-server/auth-service'
 import { Subject } from './src/mirage-server/models/subject'
 
 export function makeServer({ environment = 'development' } = {}) {
-  const JWT_SECRET = '098765432345678987654'
+	const JWT_SECRET = '098765432345678987654'
 
-  const server = new Server({
-    models: {
-      actor: Model.extend({
-        account: hasMany(),
-      }),
-      account: Model,
-    },
-    fixtures: {
-      actors: actors,
-      subjects: subjects,
-    },
-    seeds(server) {
-      server.loadFixtures('actors', 'subjects')
-    },
-    routes() {
-      this.passthrough('https://siidentityserverweb20200805020732.azurewebsites.net/**');
-      this.post('/user/token', async (schema, request) => {
-        const authService = new AuthService(server.db)
-        const body = JSON.parse(request.requestBody)
-        const actorNationalId = body.actorNationalId
-        const subjectNationalId = body.subjectNationalId
-        const actor: Actor = authService.getActorByNationalId(actorNationalId)
-        if (!actor) return new Response(403)
-        const subject = authService.getSubjectByNationalId(subjectNationalId)
+	const server = new Server({
+		models: {
+			actor: Model.extend({
+				account: hasMany(),
+			}),
+			account: Model,
+		},
+		fixtures: {
+			actors: actors,
+			subjects: subjects,
+		},
+		seeds(server) {
+			server.loadFixtures('actors', 'subjects')
+		},
+		routes() {
+			this.passthrough('https://siidentityserverweb20200805020732.azurewebsites.net/**');
+			this.post('/user/token', async (schema, request) => {
+				const authService = new AuthService(server.db)
+				const body = JSON.parse(request.requestBody)
+				const actorNationalId = body.actorNationalId
+				const subjectNationalId = body.subjectNationalId
+				const actor: Actor = authService.getActorByNationalId(actorNationalId)
+				if (!actor) return new Response(403)
+				const subject = authService.getSubjectByNationalId(subjectNationalId)
 
-        const jwt = new JwtToken(actor, subject)
-        const token = await jwt.signJwt(JWT_SECRET)
+				const jwt = new JwtToken(actor, subject)
+				const token = await jwt.signJwt(JWT_SECRET)
 
-        return new Response(200, {}, { token })
-      })
+				return new Response(200, {}, { token })
+			})
 
-      this.get('/user/accounts/:nationalId', async (schema, request) => {
-        console.log('get user accounts')
-        const authService = new AuthService(server.db)
+			this.get('/user/accounts/:nationalId', async (schema, request) => {
+				const authService = new AuthService(server.db)
 
-        const subjects = authService.getSubjectListByNationalId(
-          request.params.nationalId,
-        )
+				const subjects = authService.getSubjectListByNationalId(
+					request.params.nationalId,
+				)
 
-        return new Response(200, {}, { subjects })
-      })
+				return new Response(200, {}, { subjects })
+			})
 
-      this.get('/user/tokenexchange/:nationalId', async (schema, request) => {
-        const authService = new AuthService(server.db)
-        const token = request.requestHeaders.authorization
+			this.get('/user/tokenexchange/:nationalId', async (schema, request) => {
+				const authService = new AuthService(server.db)
+				const token = request.requestHeaders.authorization
 
-        const isValid = await JwtUtils.isValidJwt(token, JWT_SECRET)
-        if (!isValid) return new Response(403)
+				const isValid = await JwtUtils.isValidJwt(token, JWT_SECRET)
+				if (!isValid) return new Response(403)
 
-        const parsedToken: JwtToken = await JwtUtils.parseJwt(token)
-        const actor: Actor = authService.getActorByNationalId(
-          parsedToken.actor.nationalId,
-        )
-        const subject: Subject = authService.getSubjectForActor(actor)
+				const parsedToken: JwtToken = await JwtUtils.parseJwt(token)
+				const actor: Actor = authService.getActorByNationalId(
+					parsedToken.actor.nationalId,
+				)
+				const subject: Subject = authService.getSubjectForActor(actor)
 
-        if (!subject) {
-          return new Response(403)
-        }
+				if (!subject) {
+					return new Response(403)
+				}
 
-        const jwt = new JwtToken(actor, subject)
-        const newToken = await jwt.signJwt(JWT_SECRET)
+				const jwt = new JwtToken(actor, subject)
+				const newToken = await jwt.signJwt(JWT_SECRET)
 
-        return new Response(200, {}, { newToken })
-      })
+				return new Response(200, {}, { newToken })
+			})
 
-      this.get('/documents', async (schema, request) => {
-        return new Response(200, {}, [
-          {
-            id: 1,
-            name: 'Greiðsluseðill (Bifr.gjöld) - Ríkissjóðsinnheimtur',
-          },
-          { id: 2, name: 'Greiðsluseðill (Laun) - Ríkissjóðsinnheimtur' },
-        ])
-      })
-    },
-  })
+			this.get('/documents', async (schema, request) => {
+				return new Response(200, {}, [
+					{
+						id: 1,
+						name: 'Greiðsluseðill (Bifr.gjöld) - Ríkissjóðsinnheimtur',
+					},
+					{ id: 2, name: 'Greiðsluseðill (Laun) - Ríkissjóðsinnheimtur' },
+				])
+			})
+		},
+	})
 }

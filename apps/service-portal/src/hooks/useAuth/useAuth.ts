@@ -11,18 +11,40 @@ const useAuth = () => {
     })
 
     try {
+
+      const mssg = await userManager.querySessionStatus()
+
       const user = await userManager.signinSilent()
       dispatch({
         type: ActionType.SetUserFulfilled,
         payload: user,
       })
     } catch (exception) {
+      console.log('try', exception.msg)
+
       userManager.signinRedirect()
+    }
+  }
+
+  async function signOutUser() {
+    dispatch({
+      type: ActionType.SetUserPending,
+    })
+
+    try {
+      console.log('logoiut')
+      dispatch({
+        type: ActionType.SetUserLoggedOut
+      })
+      await userManager.signoutRedirect()
+    } catch (exception) {
+      console.log(exception)
     }
   }
 
   return {
     userInfo,
+    signOutUser,
     userInfoState,
     signInUser,
   }

@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom'
 import { User } from 'oidc-client'
 import { ServicePortalPath } from '@island.is/service-portal/core'
+import useAuth from '../../../hooks/useAuth/useAuth'
 
 interface Props {
   isOpen: boolean
@@ -29,6 +30,10 @@ export const Menu: FC<Props> = ({
 }) => {
   const personSubjects = subjectList.filter((x) => x.subjectType === 'person')
   const companySubjects = subjectList.filter((x) => x.subjectType === 'company')
+  const { signOutUser } = useAuth()
+  const handleLogout = async () => {
+    signOutUser()
+  }
 
   return (
     <div
@@ -92,14 +97,9 @@ export const Menu: FC<Props> = ({
         </Box>
       </Box>
       <Box paddingX={4} paddingBottom={3}>
-        {/* TODO: This is a temp solution */}
-        <a
-          href="https://siidentityserverweb20200805020732.azurewebsites.net/Account/Logout"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Button width="fluid">Útskráning</Button>
-        </a>
+        <Button width="fluid" onClick={handleLogout}>
+          Útskráning
+        </Button>
       </Box>
     </div>
   )
