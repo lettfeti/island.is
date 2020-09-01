@@ -1,0 +1,25 @@
+*                               ?
+
+/apps/adgerdir*/                @island.is/kosmos-kaos
+air-discount-scheme/            @island.is/vice-versa
+/apps/api/                      ?
+/apps/application-system/       @island.is/aranja
+gjafakort/                      @island.is/vice-versa
+/apps/judicial-system/          @island.is/kolibri
+/apps/reference-backend/        ? @island.is/devops
+service-portal*/                @island.is/sendiradid
+/apps/services/search-indexer/  @island.is/stefna
+/apps/web*/                     @island.is/kosmos-kaos
+/libs/api/                      ?
+/libs/api/application           @island.is/aranja
+/libs/api/cms/                  @island.is/kosmos-kaos
+content-search/                 @island.is/stefna
+/libs/api/documents/            @island.is/sendiradid
+/libs/application/              @island.is/aranja
+/libs/cache/                    ? @island.is/vice-versa
+/libs/contentful-importer/      ? @island.is/kosmos-kaos
+/libs/infra*/                   @island.is/devops
+/libs/island-ui/                ? @island.is/kosmos-kaos
+/libs/logging/                  ? @island.is/devops
+/libs/message-queue/            ? @island.is/vice-versa
+/scripts/                       @island.is/andes
