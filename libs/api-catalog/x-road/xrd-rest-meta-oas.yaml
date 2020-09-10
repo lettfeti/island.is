@@ -64,6 +64,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/methodList'
   /{xRoadInstance}/{memberClass}/{memberCode}/{subsystemCode}/getOpenAPI:
+    parameters:
+      - $ref: '#/components/parameters/xRoadInstance'
+      - $ref: '#/components/parameters/memberClass'
+      - $ref: '#/components/parameters/memberCode'
+      - $ref: '#/components/parameters/subsystemCode'
     get:
       tags:
         - metaservices
@@ -80,7 +85,7 @@ paths:
             type: string
       responses:
         '200':
-        description: OpenAPI description of the specified REST service
+          description: OpenAPI description of the specified REST service
           content:
             application/json:
               schema:
@@ -89,9 +94,9 @@ paths:
               schema:
                 type: string
         '400':
-        description: Error in request
+          description: Error in request
         '500':
-        description: Internal error
+          description: Internal error
 components:
   parameters:
     xRoadInstance:
