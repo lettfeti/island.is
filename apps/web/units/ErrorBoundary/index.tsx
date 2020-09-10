@@ -1,10 +1,15 @@
 import React from 'react'
 import { ErrorProps } from 'next/error'
+import * as Sentry from '@sentry/node'
+
 import ErrorPage from '../../pages/_error'
+
+const { NODE_ENV } = process.env
 
 export const withErrorBoundary = (Component) => {
   class ErrorBoundary extends React.Component<ErrorProps> {
     state = { statusCode: 0, title: '' }
+
     static getDerivedStateFromError(error: Error) {
       // All throws from frontend are critical crashes,
       // return generic error code unless the error is a custom error object
@@ -12,8 +17,13 @@ export const withErrorBoundary = (Component) => {
     }
 
     componentDidCatch(error: Error, info: React.ErrorInfo) {
-      // TODO: Add central logging here
-      console.error(error, info)
+      Sentry.withScope((scope) => {
+        Object.keys(info).forEach((key) => {
+          scope.setExtra(key, info[key])
+        })
+
+        Sentry.captureException(error)
+      })
     }
 
     render() {
@@ -34,9 +44,9 @@ export const withErrorBoundary = (Component) => {
       }
     }
   }
-  const environment = process.env.NODE_ENV
+
   const NewComponent = (props) => {
-    if (environment === 'development') {
+    if (NODE_ENV === 'development') {
       return <Component {...props} />
     } else {
       return (
@@ -51,7 +61,7 @@ export const withErrorBoundary = (Component) => {
   if (Component.getInitialProps) {
     // Wrap getInitialProps to be able to pass custom error codes to error page
     NewComponent.getInitialProps = async (ctx) => {
-      if (environment === 'development') {
+      if (NODE_ENV === 'development') {
         return await Component.getInitialProps(ctx)
       } else {
         try {
