@@ -26,7 +26,7 @@ export interface CreateCaseRequest {
   suspectNationalId: string
 }
 
-export interface WorkingCaseFields {
+export interface CreateDetentionReqStepOneFields {
   policeCaseNumber: string
   suspectNationalId: string
   suspectName: string
@@ -37,7 +37,19 @@ export interface WorkingCaseFields {
   requestedCourtDate: Date
 }
 
-export interface WorkingCase {
+export interface CreateDetentionReqStepTwoFields {
+  courtClaimDate: Date
+  courtClaimTime: string
+  offense: string
+  offenseParagraph: string
+}
+
+export interface CreateDetentionReqStepOneCase {
   id: string
-  case: WorkingCaseFields
+  case: CreateDetentionReqStepOneFields
+}
+
+export interface CreateDetentionReqStepTwoCase {
+  id: string
+  case: CreateDetentionReqStepTwoFields
 }
