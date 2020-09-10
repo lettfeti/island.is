@@ -2,49 +2,60 @@
 
 This library was generated with [Nx](https://nx.dev).
 
-This library uses the [X-Road REST Management API interface] to collect
-API catalog from the X-Road environment.
+This library uses the [X-Road Service Metadata] and
+[X-Road Service Metadata for REST] to collect
+API catalogue information from the X-Road environment.
 
 ## Developing
 
 ### Codegen
 
-We use codegen to generate client from the [OpenAPI document] for the
-REST Management API. In `workspace.json` we have `codegen` command
+We use codegen to generate clients from the OpenAPI documents for the
+two REST services. In `workspace.json` we have two `codegen` commands
 and to execute that command from command line we do:
 
 ```
-yarn nx run api-catalog-x-road:codegen
+# Generates clients from X-Road Service Metadata
+yarn nx run api-catalog-x-road:codegen-xrd
+
+# Generates clients from X-Road Service Metadata for REST
+yarn nx run api-catalog-x-road:codegen-xrd-rest
 ```
 
 ### X-Road SÍ Dev
 
-You need to have a X-Road Security Server running locally.
-Currently using version 6.24.0
-
-```
-# Running exact version instead of the default latest version
-docker run -p 4000:4000 -p 4001:80 --name my-ss niis/xroad-security-server:bionic-6.24.0
-```
-
-The Admin UI credentials are: xrd/secret
-
-**TBD** How to connect this local instance to the dev
-X-Road Central Server?
+**TBD** How to connect to the dev X-Road Central Server?
 
 ### X-Road Standalone
 
-There is a standalone version of the Security Server available
-on [DockerHub](https://hub.docker.com/r/niis/xroad-security-server-standalone)
+For messing around a developer can start á local instance of standalone
+Security Server using [docker](https://hub.docker.com/r/niis/xroad-security-server-standalone)
 
 ```
-# Publish the container ports (4000 and 80) to localhost (loopback address).
-docker run -p 4000:4000 -p 80:80 --name ss niis/xroad-security-server-standalone:bionic-6.24.0
+# Publish the container ports (4000, 443 and 80) to localhost (loopback address)
+# using the latest docker image available.
+# See docker hub for specific tags for specific version.
+docker run -p 4000:4000 -p 80:80 -p 443:443 --name ss niis/xroad-security-server-standalone
+```
+
+Developer can now access this Security Server AdminUI on `https://localhost:4000`
+to register custom services and clients for testing.
+
+### Query list of all clients on the X-Road network
+
+```
+curl -H "Accept: application/json" http://localhost/listClients
+```
+
+### Query OpenAPI Specification for REST service
+
+```
+curl -H "Accept: application/json" -H "X-Road-Client: IS-DEV/GOV/10003/VMST-Client" http://localhost/r1/IS-DEV/GOV/10003/pets/getOpenAPI?serviceCode=petstore
 ```
 
 ## Running unit tests
 
 Run `ng test api-catalog-x-road` to execute the unit tests via [Jest](https://jestjs.io).
 
-[x-road rest management api interface]: https://github.com/nordic-institute/X-Road/blob/develop/doc/Manuals/ug-ss_x-road_6_security_server_user_guide.md#19-management-rest-apis
-[openapi document]: https://github.com/nordic-institute/X-Road/blob/develop/src/proxy-ui-api/src/main/resources/openapi-definition.yaml
+[x-road service metadata]: https://github.com/nordic-institute/X-Road/blob/develop/doc/Protocols/pr-meta_x-road_service_metadata_protocol.md#openapi-definition
+[x-road service metadata for rest]: https://github.com/nordic-institute/X-Road/blob/develop/doc/Protocols/pr-mrest_x-road_service_metadata_protocol_for_rest.md#annex-a-service-descriptions-for-rest-metadata-services

@@ -2960,12 +2960,22 @@
             "passWithNoTests": true
           }
         },
-        "codegen": {
+        "codegen-xrd": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "commands": [
               {
-                "command": "openapi-generator generate -g typescript-fetch --additional-properties=typescriptThreePlus=true -o libs/api-catalog/x-road/gen/fetch -i libs/api-catalog/x-road/openapi.yaml"
+                "command": "openapi-generator generate -g typescript-fetch --additional-properties=typescriptThreePlus=true -o libs/api-catalog/x-road/gen/fetch-xrd -i libs/api-catalog/x-road/xrd-meta-oas.yaml"
+              }
+            ]
+          }
+        },
+        "codegen-xrd-rest": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "openapi-generator generate -g typescript-fetch --additional-properties=typescriptThreePlus=true -o libs/api-catalog/x-road/gen/fetch-xrd-rest -i libs/api-catalog/x-road/xrd-rest-meta-oas.yaml"
               }
             ]
           }
