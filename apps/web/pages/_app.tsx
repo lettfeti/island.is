@@ -30,32 +30,42 @@ interface AppCustomContext extends AppContext {
   apolloClient: ApolloClient<NormalizedCacheObject>
 }
 
+type SupportApplicationProps = NextComponentType<
+  AppCustomContext,
+  AppInitialProps,
+  AppCustomProps & { err: Error & { statusCode?: number } }
+>
+
 const {
   publicRuntimeConfig: { SENTRY_DSN },
   serverRuntimeConfig: { rootDir },
 } = getConfig()
 
 if (SENTRY_DSN) {
-  const distDir = `${rootDir}/.next`
-
   Sentry.init({
+    dsn: SENTRY_DSN,
+    enabled: process.env.NODE_ENV === 'production',
     integrations: [
       new RewriteFrames({
         iteratee: (frame) => {
-          frame.filename = frame.filename.replace(distDir, 'app:///_next')
+          frame.filename = frame.filename.replace(
+            `${rootDir}/.next`,
+            'app:///_next',
+          )
           return frame
         },
       }),
     ],
-    dsn: SENTRY_DSN,
   })
 }
 
-const SupportApplication: NextComponentType<
-  AppCustomContext,
-  AppInitialProps,
-  AppCustomProps
-> = ({ Component, pageProps, layoutProps, router }) => {
+const SupportApplication: SupportApplicationProps = ({
+  Component,
+  pageProps,
+  layoutProps,
+  router,
+  err,
+}) => {
   const { showSearchInHeader } = pageProps
   const lang = router.pathname.startsWith('en') ? 'en' : 'is'
 
@@ -83,7 +93,7 @@ const SupportApplication: NextComponentType<
   return (
     <ApolloProvider client={initApollo(pageProps.apolloState)}>
       <Layout showSearchInHeader={showSearchInHeader} {...layoutProps}>
-        <Component {...pageProps} />
+        <Component {...pageProps} err={err} />
       </Layout>
     </ApolloProvider>
   )

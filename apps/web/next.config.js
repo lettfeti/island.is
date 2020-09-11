@@ -1,3 +1,4 @@
+const path = require('path')
 const withTreat = require('next-treat')()
 const withSourceMaps = require('@zeit/next-source-maps')
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
@@ -33,17 +34,26 @@ module.exports = withSourceMaps(
             config.resolve.alias['@sentry/node'] = '@sentry/browser'
           }
 
+          /*
+          const include = path.join(
+            __dirname,
+            '..',
+            '..',
+            'dist',
+            'apps',
+            'web',
+          )
+
           if (SENTRY_DSN && SENTRY_AUTH_TOKEN && NODE_ENV === 'production') {
             config.plugins.push(
               new SentryWebpackPlugin({
-                include: '.next',
+                include,
                 ignore: ['node_modules'],
-                stripPrefix: ['webpack://_N_E/'],
-                urlPrefix: `~/_next`,
                 release: options.buildId,
               }),
             )
           }
+          */
 
           return config
         },
