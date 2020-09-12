@@ -5,7 +5,7 @@ import {  Box,
   GridContainer, 
   GridRow, 
   GridColumn, 
-  SidebarAccordion 
+  SidebarAccordion, RadioButton 
 } from '@island.is/island-ui/core'
 
 import { Layout, 
@@ -92,11 +92,7 @@ export default function ServiceList(props:ServiceListProps) {
     setCheckSettingsCheckAll(selectAll);
     selectAllCheckboxes(selectAll);
   }
-  const onCheckSettingsSearchMethodClick = event => {
-    const checked = event.target.checked;
-    props.parameters.searchMethod = checked? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
-    setCheckSettingsSearchMethod(checked);
-  }
+
   const updateCategoryCheckBox = event => {
     
     const checked = event.target.checked;
@@ -223,7 +219,8 @@ export default function ServiceList(props:ServiceListProps) {
 
   //settings
   const [checkSettingsCheckAll,     setCheckSettingsCheckAll]     = useState<boolean>(false);
-  const [checkSettingsSearchMethod, setCheckSettingsSearchMethod] = useState<boolean>(false);
+  const [checkSettingsSearchMethod, setCheckSettingsSearchMethod] = useState<SERVICE_SEARCH_METHOD>(SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY);
+  const [radioButton, setRadioButton] = useState('1');
 
   useEffect(() => {
     const loadData = async () => {
@@ -305,9 +302,37 @@ export default function ServiceList(props:ServiceListProps) {
                   <CategoryCheckBox label={ACCESS_CATEGORY.API_GW} value={ACCESS_CATEGORY.API_GW}  checkValue={checkAccessApiGw}    onChange={updateCategoryCheckBox} />
                 </SidebarAccordion>
                 <SidebarAccordion id="filter_settings" label="Stillingar">
-                  <CategoryCheckBox label="Select all"   value="select-all" checkValue={checkSettingsCheckAll}     onChange={onCheckSettingsCheckAllClick} />
-                  <CategoryCheckBox label="Match all categories" value="method"     checkValue={checkSettingsSearchMethod} onChange={onCheckSettingsSearchMethodClick}/>
-                </SidebarAccordion>
+
+                <CategoryCheckBox label="Velja"   value="select-all" checkValue={checkSettingsCheckAll}     onChange={onCheckSettingsCheckAllClick}
+                    tooltip="Haka í eða úr öllum gildum í öllum flokkum."/>
+          <div>
+            <div>Leitaraðferð</div>
+          <RadioButton name="RadioButton1" id="leit-1" label="Einn" value="1"
+            tooltip="Eitt gildi í einum flokk þarf að passa"
+            onChange={({ target }) => {
+            setRadioButton(target.value)
+            props.parameters.searchMethod = target.value === '1'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
+            setCheckSettingsSearchMethod(props.parameters.searchMethod)
+          }}
+          checked={radioButton === '1'}
+        />
+        <RadioButton name="RadioButton1" id="leit-2" label="Allir" value="2"
+          tooltip="Eitt gildi í hverjum flokk þarf að passa"
+          onChange={({ target }) => {
+            setRadioButton(target.value)
+            props.parameters.searchMethod = target.value === '2'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
+            setCheckSettingsSearchMethod(props.parameters.searchMethod)
+          }}
+          checked={radioButton === '2'}
+        />
+        </div>
+
+
+                  {/*
+                  <CategoryCheckBox label="Leitaraðferð" value="method"     checkValue={checkSettingsSearchMethod} onChange={onCheckSettingsSearchMethodClick} 
+                  tooltip="Ef valið þá þarf alla vega eitt gildi í hverjum flokk að vera eins."/>*/}
+
+                  </SidebarAccordion>
                 </GridColumn>
               </GridRow>
             </GridContainer>
