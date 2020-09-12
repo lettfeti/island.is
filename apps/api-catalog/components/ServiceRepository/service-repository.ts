@@ -1,7 +1,7 @@
 import {ServiceStatusValue } from  '..'
 import { ServiceCardInformation } from '../ServiceCard/service-card';
 
-const MAX_LIMIT = 4;
+const MAX_LIMIT = 6;
 
 export interface ServicesResult {
     result:Array<ServiceCardInformation>,
@@ -160,6 +160,7 @@ const ParameterArraysContainsOneOrMoreOf = (service:ServiceCardInformation, para
 
 
 export async function getServices(parameters:GetServicesParameters):Promise<ServicesResult> {
+    
     const params:GetServicesParameters = parameters !== null? parameters : {cursor:null, limit:null, owner:null, name:null, pricing:null, data:null, type:null, access:null, searchMethod:SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY};
     let filtered = OrgServices;
     if (isValidString(params.name)) {
@@ -184,7 +185,7 @@ export async function getServices(parameters:GetServicesParameters):Promise<Serv
         params.limit = null;
     }
     
-    console.log("params pricing,data,type,access", params.pricing, params.data, params.type, params.access);
+    console.log("params method,pricing,data,type,access", params.searchMethod, params.pricing, params.data, params.type, params.access);
     return await limitServices(filtered, params.cursor, params.limit);
 }
 

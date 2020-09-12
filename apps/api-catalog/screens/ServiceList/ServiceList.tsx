@@ -197,30 +197,30 @@ export default function ServiceList(props:ServiceListProps) {
   const [paramCursor, setParamCursor]= useState<number>(null);
   
   //pricing
-  const [checkPricingFree,    setCheckPricingFree]   = useState<boolean>(true);
-  const [checkPricingUsage,   setCheckPricingUsage]  = useState<boolean>(true);
-  const [checkPricingDaily,   setCheckPricingDaily]  = useState<boolean>(true);
-  const [checkPricingMonthly, setCheckPricingMonthly]= useState<boolean>(true);
-  const [checkPricingYearly,  setCheckPricingYearly] = useState<boolean>(true);
-  const [checkPricingCustom,  setCheckPricingCustom] = useState<boolean>(true);
-  //data
-  const [checkDataPublic,     setCheckDataPublic]    = useState<boolean>(true);
-  const [checkDataOfficial,   setCheckDataOfficial]  = useState<boolean>(true);
-  const [checkDataPersonal,   setCheckDataPersonal]  = useState<boolean>(true);
-  const [checkDataHealth,     setCheckDataHealth]    = useState<boolean>(true);
-  const [checkDataFinancial,  setCheckDataFinancial] = useState<boolean>(true);
-  //type
-  const [checkTypeReact,      setCheckTypeReact]     = useState<boolean>(true);
-  const [checkTypeSoap,       setCheckTypeSoap]      = useState<boolean>(true);
-  const [checkTypeGraphQl,    setCheckTypeGraphQl]   = useState<boolean>(true);
-  //access
-  const [checkAccessApiXRoad, setCheckAccessXRoad]   = useState<boolean>(true);
-  const [checkAccessApiGw,    setCheckAccessApiGw]   = useState<boolean>(true);
+  const [checkPricingFree,    setCheckPricingFree]   = useState<boolean>(false);
+  const [checkPricingUsage,   setCheckPricingUsage]  = useState<boolean>(false);
+  const [checkPricingDaily,   setCheckPricingDaily]  = useState<boolean>(false);
+  const [checkPricingMonthly, setCheckPricingMonthly]= useState<boolean>(false);
+  const [checkPricingYearly,  setCheckPricingYearly] = useState<boolean>(false);
+  const [checkPricingCustom,  setCheckPricingCustom] = useState<boolean>(false);
+  //datafalse
+  const [checkDataPublic,     setCheckDataPublic]    = useState<boolean>(false);
+  const [checkDataOfficial,   setCheckDataOfficial]  = useState<boolean>(false);
+  const [checkDataPersonal,   setCheckDataPersonal]  = useState<boolean>(false);
+  const [checkDataHealth,     setCheckDataHealth]    = useState<boolean>(false);
+  const [checkDataFinancial,  setCheckDataFinancial] = useState<boolean>(false);
+  //typefalse
+  const [checkTypeReact,      setCheckTypeReact]     = useState<boolean>(false);
+  const [checkTypeSoap,       setCheckTypeSoap]      = useState<boolean>(false);
+  const [checkTypeGraphQl,    setCheckTypeGraphQl]   = useState<boolean>(false);
+  //accessfalse
+  const [checkAccessApiXRoad, setCheckAccessXRoad]   = useState<boolean>(false);
+  const [checkAccessApiGw,    setCheckAccessApiGw]   = useState<boolean>(false);
 
   //settings
   const [checkSettingsCheckAll,     setCheckSettingsCheckAll]     = useState<boolean>(false);
   const [checkSettingsSearchMethod, setCheckSettingsSearchMethod] = useState<SERVICE_SEARCH_METHOD>(SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY);
-  const [radioButton, setRadioButton] = useState('0');
+  const [radioSearchMethod, setRadioSearchMethod] = useState('1');
 
   useEffect(() => {
     const loadData = async () => {
@@ -248,6 +248,7 @@ export default function ServiceList(props:ServiceListProps) {
       checkAccessApiGw,
       checkSettingsCheckAll,
       checkSettingsSearchMethod,   
+      radioSearchMethod,
       paramCursor, 
       pricing,
       data,
@@ -310,20 +311,20 @@ export default function ServiceList(props:ServiceListProps) {
           <RadioButton name="RadioButtonSearchMethod" id="SearchMethod1" label="Einn" value="1"
             tooltip="Eitt gildi í einum flokk þarf að passa"
             onChange={({ target }) => {
-            setRadioButton(target.value)
-            props.parameters.searchMethod = target.value === '1'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
+            setRadioSearchMethod(target.value)
+            props.parameters.searchMethod = target.value === '1'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY;
             setCheckSettingsSearchMethod(props.parameters.searchMethod)
           }}
-          checked={radioButton === '1'}
+          checked={radioSearchMethod === '1'}
         />
         <RadioButton name="RadioButtonSearchMethod" id="SearchMethod2" label="Allir" value="2"
           tooltip="Eitt gildi í hverjum flokk þarf að passa"
           onChange={({ target }) => {
-            setRadioButton(target.value)
-            props.parameters.searchMethod = target.value === '2'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
+            setRadioSearchMethod(target.value)
+            props.parameters.searchMethod = target.value === '2'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY;
             setCheckSettingsSearchMethod(props.parameters.searchMethod)
           }}
-          checked={radioButton === '2'}
+          checked={radioSearchMethod === '2'}
         />
         </div>
 
@@ -347,10 +348,10 @@ ServiceList.getInitialProps = async ():Promise<ServiceListProps> => {
     limit:null, 
     owner:null,
     name:null, 
-    pricing:getAllPriceCategories(), 
-    data:getAllDataCategories(),
-    type:getAllTypeCategories(),    
-    access:getAllAccessCategories(),
+    pricing:[], 
+    data:[],
+    type:[],    
+    access:[],
     searchMethod:SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
   };
   
