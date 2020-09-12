@@ -307,23 +307,23 @@ export default function ServiceList(props:ServiceListProps) {
                     tooltip="Haka í eða úr öllum gildum í öllum flokkum."/>
           <div>
             <div>Leitaraðferð</div>
-          <RadioButton name="RadioButton0" id="leit-0" label="Einn" value="0"
+          <RadioButton name="RadioButtonSearchMethod" id="SearchMethod1" label="Einn" value="1"
             tooltip="Eitt gildi í einum flokk þarf að passa"
             onChange={({ target }) => {
-            setRadioButton(target.value)
-            props.parameters.searchMethod = target.value === '0'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
-            setCheckSettingsSearchMethod(props.parameters.searchMethod)
-          }}
-          checked={radioButton === '0'}
-        />
-        <RadioButton name="RadioButton1" id="leit-1" label="Allir" value="1"
-          tooltip="Eitt gildi í hverjum flokk þarf að passa"
-          onChange={({ target }) => {
             setRadioButton(target.value)
             props.parameters.searchMethod = target.value === '1'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
             setCheckSettingsSearchMethod(props.parameters.searchMethod)
           }}
           checked={radioButton === '1'}
+        />
+        <RadioButton name="RadioButtonSearchMethod" id="SearchMethod2" label="Allir" value="2"
+          tooltip="Eitt gildi í hverjum flokk þarf að passa"
+          onChange={({ target }) => {
+            setRadioButton(target.value)
+            props.parameters.searchMethod = target.value === '2'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
+            setCheckSettingsSearchMethod(props.parameters.searchMethod)
+          }}
+          checked={radioButton === '2'}
         />
         </div>
 
