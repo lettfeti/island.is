@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import {  Box,  
-          Stack,  
-          Button, 
-          GridContainer, 
-          GridRow, 
-          GridColumn, 
-          SidebarAccordion 
+  Stack,  
+  Button, 
+  GridContainer, 
+  GridRow, 
+  GridColumn, 
+  SidebarAccordion, RadioButton 
 } from '@island.is/island-ui/core'
 
 import { Layout, 
-         ServiceCard,
-         ServiceCardInformation, 
-         CategoryCheckBox
-       } from '../../components'
-       
+  ServiceCard,
+  ServiceCardInformation, 
+  CategoryCheckBox
+} from '../../components'
+
 import { getServices, 
-         GetServicesParameters, 
-         PRICING_CATEGORY, DATA_CATEGORY, getAllPriceCategories, getAllDataCategories, TYPE_CATEGORY, ACCESS_CATEGORY, getAllAccessCategories, getAllTypeCategories 
-       } from '../../components/ServiceRepository/service-repository'
+  PRICING_CATEGORY, 
+  DATA_CATEGORY, 
+  TYPE_CATEGORY, 
+  ACCESS_CATEGORY, 
+  SERVICE_SEARCH_METHOD,
+  GetServicesParameters, 
+  getAllPriceCategories, 
+  getAllDataCategories, 
+  getAllAccessCategories, 
+  getAllTypeCategories,
+} from '../../components/ServiceRepository/service-repository'
+
+//import * as styles from './ServiceList.treat';
+//import cn from 'classnames'
 
 
 export interface ServiceListProps {
@@ -31,7 +42,7 @@ export interface ServiceListProps {
 export default function ServiceList(props:ServiceListProps) {
   
   if (!props.parameters === null) {
-    props.parameters = { cursor:0, limit:null, owner:null, name:null, pricing:null, data:null, type:null, access:null };
+    props.parameters = { cursor:0, limit:null, owner:null, name:null, pricing:null, data:null, type:null, access:null, searchMethod:SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY };
   }
  
   const showNavigation = () => {
@@ -46,75 +57,46 @@ export default function ServiceList(props:ServiceListProps) {
       </div>
     )
   }
-        
+
+  const selectAllCheckboxes = (selectAll:boolean) => {
+    setCheckPricingFree(selectAll);
+    setCheckPricingFree(selectAll);
+    setCheckPricingUsage(selectAll);  
+    setCheckPricingDaily(selectAll);  
+    setCheckPricingMonthly(selectAll);
+    setCheckPricingYearly(selectAll); 
+    setCheckPricingCustom(selectAll); 
+    setCheckDataPublic(selectAll);  
+    setCheckDataOfficial(selectAll);  
+    setCheckDataPersonal(selectAll);  
+    setCheckDataHealth(selectAll);    
+    setCheckDataFinancial(selectAll); 
+    setCheckTypeReact(selectAll); 
+    setCheckTypeSoap(selectAll);
+    setCheckTypeGraphQl(selectAll);  
+    setCheckAccessXRoad(selectAll);  
+    setCheckAccessApiGw(selectAll);
+    props.parameters.cursor  = null;
+    props.parameters.pricing = selectAll? getAllPriceCategories()  : [];
+    props.parameters.data    = selectAll? getAllDataCategories()   : [];
+    props.parameters.type    = selectAll? getAllTypeCategories()   : [];
+    props.parameters.access  = selectAll? getAllAccessCategories() : [];
+  }
+
   const onPageButtonClick = (nextC) => {
     props.parameters.cursor = nextC;
     setParamCursor(props.parameters.cursor);
   }
-  
-  const [services,    setServices]   = useState<Array<ServiceCardInformation>>(props.servicesList);
-  const [pricing,     setPricing]    = useState<Array<string>>(props.parameters.pricing);
-  const [data,        setData]       = useState<Array<string>>(props.parameters.data);
-  const [type,        setType]       = useState<Array<string>>(props.parameters.type);
-  const [access,      setAccess]       = useState<Array<string>>(props.parameters.access);
-  const [prevCursor,  setPrevCursor] = useState<number>(props.prevCursor);
-  const [nextCursor,  setNextCursor] = useState<number>(props.nextCursor);
-  const [paramCursor, setParamCursor]= useState<number>(null);
-  //pricing
-  const [checkPricingFree,   setCheckPricingFree]   = useState<boolean>(true);
-  const [checkPricingUsage,  setCheckPricingUsage]  = useState<boolean>(true);
-  const [checkPricingDaily,  setCheckPricingDaily]  = useState<boolean>(true);
-  const [checkPricingMonthly,setCheckPricingMonthly]= useState<boolean>(true);
-  const [checkPricingYearly, setCheckPricingYearly] = useState<boolean>(true);
-  const [checkPricingCustom, setCheckPricingCustom] = useState<boolean>(true);
-  //data
-  const [checkDataPublic,      setCheckDataPublic]  = useState<boolean>(true);
-  const [checkDataOfficial,  setCheckDataOfficial]  = useState<boolean>(true);
-  const [checkDataPersonal,  setCheckDataPersonal]  = useState<boolean>(true);
-  const [checkDataHealth,    setCheckDataHealth]    = useState<boolean>(true);
-  const [checkDataFinancial, setCheckDataFinancial] = useState<boolean>(true);
-  //type
-  const [checkTypeReact,      setCheckTypeReact]  = useState<boolean>(true);
-  const [checkTypeSoap,       setCheckTypeSoap]  = useState<boolean>(true);
-  const [checkTypeGraphQl,    setCheckTypeGraphQl]  = useState<boolean>(true);
-  //access
-  const [checkAccessApiXRoad, setCheckAccessXRoad]  = useState<boolean>(true);
-  const [checkAccessApiGw,    setCheckAccessApiGw]  = useState<boolean>(true);
-
-  
-  useEffect(() => {
-    const loadData = async () => {
-      const response = await getServices(props.parameters);
-      setServices(response.result);
-      setPrevCursor(response.prevCursor);
-      setNextCursor(response.nextCursor);
-    }
-      loadData();
-  }, [checkPricingFree, 
-      checkPricingUsage,
-      checkPricingDaily,
-      checkPricingMonthly,
-      checkPricingYearly,
-      checkPricingCustom,
-      checkDataPublic,    
-      checkDataOfficial,
-      checkDataPersonal,
-      checkDataHealth,  
-      checkDataFinancial,
-      checkTypeReact,     
-      checkTypeSoap,      
-      checkTypeGraphQl,   
-      checkAccessApiXRoad,
-      checkAccessApiGw,   
-      paramCursor, 
-      pricing,
-      data,
-      type,
-      access,
-      props.parameters]);
+  const onCheckSettingsCheckAllClick = event => {
+    const selectAll = event.target.checked;
+    setCheckSettingsCheckAll(selectAll);
+    selectAllCheckboxes(selectAll);
+  }
 
   const updateCategoryCheckBox = event => {
     
+    const checked = event.target.checked;
+
     props.parameters.cursor = null;
     let filter:Array<string>;
     switch(event.target.value){
@@ -147,7 +129,7 @@ export default function ServiceList(props:ServiceListProps) {
     if (filter === null) {
       filter = [];
     }
-    if (event.target.checked) {
+    if (checked) {
         if (!filter.includes(event.target.value)) {
           filter.push(event.target.value)
         }
@@ -157,25 +139,26 @@ export default function ServiceList(props:ServiceListProps) {
 
     
     switch(event.target.value){
-      case PRICING_CATEGORY.FREE    : setCheckPricingFree(event.target.checked);   break;
-      case PRICING_CATEGORY.USAGE   : setCheckPricingUsage(event.target.checked);  break;
-      case PRICING_CATEGORY.DAILY   : setCheckPricingDaily(event.target.checked);  break;
-      case PRICING_CATEGORY.MONTHLY : setCheckPricingMonthly(event.target.checked);break;
-      case PRICING_CATEGORY.YEARLY  : setCheckPricingYearly(event.target.checked); break;
-      case PRICING_CATEGORY.CUSTOM  : setCheckPricingCustom(event.target.checked); break;
+      case PRICING_CATEGORY.FREE    : console.log("checkPricingFree, target.checked", checkPricingFree, checked)
+                                      setCheckPricingFree(checked );   break;
+      case PRICING_CATEGORY.USAGE   : setCheckPricingUsage(checked);  break;
+      case PRICING_CATEGORY.DAILY   : setCheckPricingDaily(checked);  break;
+      case PRICING_CATEGORY.MONTHLY : setCheckPricingMonthly(checked);break;
+      case PRICING_CATEGORY.YEARLY  : setCheckPricingYearly(checked); break;
+      case PRICING_CATEGORY.CUSTOM  : setCheckPricingCustom(checked); break;
 
-      case DATA_CATEGORY.PUBLIC     : setCheckDataPublic(event.target.checked);    break;
-      case DATA_CATEGORY.OFFICIAL   : setCheckDataOfficial(event.target.checked);  break;
-      case DATA_CATEGORY.PERSONAL   : setCheckDataPersonal(event.target.checked);  break;
-      case DATA_CATEGORY.HEALTH     : setCheckDataHealth(event.target.checked);    break;
-      case DATA_CATEGORY.FINANCIAL  : setCheckDataFinancial(event.target.checked); break;
+      case DATA_CATEGORY.PUBLIC     : setCheckDataPublic(checked);    break;
+      case DATA_CATEGORY.OFFICIAL   : setCheckDataOfficial(checked);  break;
+      case DATA_CATEGORY.PERSONAL   : setCheckDataPersonal(checked);  break;
+      case DATA_CATEGORY.HEALTH     : setCheckDataHealth(checked);    break;
+      case DATA_CATEGORY.FINANCIAL  : setCheckDataFinancial(checked); break;
 
-      case TYPE_CATEGORY.REACT      : setCheckTypeReact(event.target.checked);     break;
-      case TYPE_CATEGORY.SOAP       : setCheckTypeSoap(event.target.checked);      break;
-      case TYPE_CATEGORY.GRAPHQL    : setCheckTypeGraphQl(event.target.checked);   break;
+      case TYPE_CATEGORY.REACT      : setCheckTypeReact(checked);     break;
+      case TYPE_CATEGORY.SOAP       : setCheckTypeSoap(checked);      break;
+      case TYPE_CATEGORY.GRAPHQL    : setCheckTypeGraphQl(checked);   break;
                                       
-      case ACCESS_CATEGORY.X_ROAD   : setCheckAccessXRoad(event.target.checked);   break;
-      case ACCESS_CATEGORY.API_GW   : setCheckAccessApiGw(event.target.checked);   break;
+      case ACCESS_CATEGORY.X_ROAD   : setCheckAccessXRoad(checked);   break;
+      case ACCESS_CATEGORY.API_GW   : setCheckAccessApiGw(checked);   break;
 
     }
 
@@ -204,6 +187,76 @@ export default function ServiceList(props:ServiceListProps) {
 
     setParamCursor(props.parameters.cursor);
   }
+  const [services,    setServices]   = useState<Array<ServiceCardInformation>>(props.servicesList);
+  const [pricing,     setPricing]    = useState<Array<string>>(props.parameters.pricing);
+  const [data,        setData]       = useState<Array<string>>(props.parameters.data);
+  const [type,        setType]       = useState<Array<string>>(props.parameters.type);
+  const [access,      setAccess]       = useState<Array<string>>(props.parameters.access);
+  const [prevCursor,  setPrevCursor] = useState<number>(props.prevCursor);
+  const [nextCursor,  setNextCursor] = useState<number>(props.nextCursor);
+  const [paramCursor, setParamCursor]= useState<number>(null);
+  
+  //pricing
+  const [checkPricingFree,    setCheckPricingFree]   = useState<boolean>(false);
+  const [checkPricingUsage,   setCheckPricingUsage]  = useState<boolean>(false);
+  const [checkPricingDaily,   setCheckPricingDaily]  = useState<boolean>(false);
+  const [checkPricingMonthly, setCheckPricingMonthly]= useState<boolean>(false);
+  const [checkPricingYearly,  setCheckPricingYearly] = useState<boolean>(false);
+  const [checkPricingCustom,  setCheckPricingCustom] = useState<boolean>(false);
+  //datafalse
+  const [checkDataPublic,     setCheckDataPublic]    = useState<boolean>(false);
+  const [checkDataOfficial,   setCheckDataOfficial]  = useState<boolean>(false);
+  const [checkDataPersonal,   setCheckDataPersonal]  = useState<boolean>(false);
+  const [checkDataHealth,     setCheckDataHealth]    = useState<boolean>(false);
+  const [checkDataFinancial,  setCheckDataFinancial] = useState<boolean>(false);
+  //typefalse
+  const [checkTypeReact,      setCheckTypeReact]     = useState<boolean>(false);
+  const [checkTypeSoap,       setCheckTypeSoap]      = useState<boolean>(false);
+  const [checkTypeGraphQl,    setCheckTypeGraphQl]   = useState<boolean>(false);
+  //accessfalse
+  const [checkAccessApiXRoad, setCheckAccessXRoad]   = useState<boolean>(false);
+  const [checkAccessApiGw,    setCheckAccessApiGw]   = useState<boolean>(false);
+
+  //settings
+  const [checkSettingsCheckAll,     setCheckSettingsCheckAll]     = useState<boolean>(false);
+  const [checkSettingsSearchMethod, setCheckSettingsSearchMethod] = useState<SERVICE_SEARCH_METHOD>(SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY);
+  const [radioSearchMethod, setRadioSearchMethod] = useState('1');
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await getServices(props.parameters);
+      setServices(response.result);
+      setPrevCursor(response.prevCursor);
+      setNextCursor(response.nextCursor);
+    }
+      loadData();
+  }, [checkPricingFree, 
+      checkPricingUsage,
+      checkPricingDaily,
+      checkPricingMonthly,
+      checkPricingYearly,
+      checkPricingCustom,
+      checkDataPublic,    
+      checkDataOfficial,
+      checkDataPersonal,
+      checkDataHealth,  
+      checkDataFinancial,
+      checkTypeReact,     
+      checkTypeSoap,      
+      checkTypeGraphQl,   
+      checkAccessApiXRoad,
+      checkAccessApiGw,
+      checkSettingsCheckAll,
+      checkSettingsSearchMethod,   
+      radioSearchMethod,
+      paramCursor, 
+      pricing,
+      data,
+      type,
+      access,
+      props.parameters]);
+
+
   return (   
       <Layout left={
         <Box className="service-list">
@@ -223,32 +276,64 @@ export default function ServiceList(props:ServiceListProps) {
                 </GridColumn>
                 <GridColumn  span={3} className="filter">
                 <SidebarAccordion  id="pricing_category" label="Verð">
-                  <CategoryCheckBox label="Frítt"       value={PRICING_CATEGORY.FREE}    checkValue={checkPricingFree}    onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Notkun"      value={PRICING_CATEGORY.USAGE}   checkValue={checkPricingUsage}   onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Daglega"     value={PRICING_CATEGORY.DAILY}   checkValue={checkPricingDaily}   onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Mánaðarlega" value={PRICING_CATEGORY.MONTHLY} checkValue={checkPricingMonthly} onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Árlega"      value={PRICING_CATEGORY.YEARLY}  checkValue={checkPricingYearly}  onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Breytilegt"  value={PRICING_CATEGORY.CUSTOM}  checkValue={checkPricingCustom}  onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={PRICING_CATEGORY.FREE}    value={PRICING_CATEGORY.FREE}    checkValue={checkPricingFree}    onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={PRICING_CATEGORY.USAGE}   value={PRICING_CATEGORY.USAGE}   checkValue={checkPricingUsage}   onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={PRICING_CATEGORY.DAILY}   value={PRICING_CATEGORY.DAILY}   checkValue={checkPricingDaily}   onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={PRICING_CATEGORY.MONTHLY} value={PRICING_CATEGORY.MONTHLY} checkValue={checkPricingMonthly} onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={PRICING_CATEGORY.YEARLY}  value={PRICING_CATEGORY.YEARLY}  checkValue={checkPricingYearly}  onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={PRICING_CATEGORY.CUSTOM}  value={PRICING_CATEGORY.CUSTOM}  checkValue={checkPricingCustom}  onChange={updateCategoryCheckBox} />
                 </SidebarAccordion>
 
                 <SidebarAccordion id="data_category" label="Gögn">
-                  <CategoryCheckBox label="Opin"       value={DATA_CATEGORY.PUBLIC}    checkValue={checkDataPublic}    onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Opinber"    value={DATA_CATEGORY.OFFICIAL}  checkValue={checkDataOfficial}  onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Persónuleg" value={DATA_CATEGORY.PERSONAL}  checkValue={checkDataPersonal}  onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Heilsu"     value={DATA_CATEGORY.HEALTH}    checkValue={checkDataHealth}    onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Fjárhags"   value={DATA_CATEGORY.FINANCIAL} checkValue={checkDataFinancial} onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={DATA_CATEGORY.PUBLIC}    value={DATA_CATEGORY.PUBLIC}    checkValue={checkDataPublic}    onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={DATA_CATEGORY.OFFICIAL}  value={DATA_CATEGORY.OFFICIAL}  checkValue={checkDataOfficial}  onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={DATA_CATEGORY.PERSONAL}  value={DATA_CATEGORY.PERSONAL}  checkValue={checkDataPersonal}  onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={DATA_CATEGORY.HEALTH}    value={DATA_CATEGORY.HEALTH}    checkValue={checkDataHealth}    onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={DATA_CATEGORY.FINANCIAL} value={DATA_CATEGORY.FINANCIAL} checkValue={checkDataFinancial} onChange={updateCategoryCheckBox} />
                 </SidebarAccordion>
 
                 <SidebarAccordion id="type_category" label="Gerð">
-                  <CategoryCheckBox label="React"      value={TYPE_CATEGORY.REACT}   checkValue={checkTypeReact}   onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Soap"       value={TYPE_CATEGORY.SOAP}    checkValue={checkTypeSoap}    onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="GraphQl"    value={TYPE_CATEGORY.GRAPHQL} checkValue={checkTypeGraphQl} onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={TYPE_CATEGORY.REACT}   value={TYPE_CATEGORY.REACT}   checkValue={checkTypeReact}   onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={TYPE_CATEGORY.SOAP}    value={TYPE_CATEGORY.SOAP}    checkValue={checkTypeSoap}    onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={TYPE_CATEGORY.GRAPHQL} value={TYPE_CATEGORY.GRAPHQL} checkValue={checkTypeGraphQl} onChange={updateCategoryCheckBox} />
                 </SidebarAccordion>
 
                 <SidebarAccordion id="access_category" label="Aðgangur">
-                  <CategoryCheckBox label="Straumurinn" value={ACCESS_CATEGORY.X_ROAD}  checkValue={checkAccessApiXRoad} onChange={updateCategoryCheckBox} />
-                  <CategoryCheckBox label="Gáttin"      value={ACCESS_CATEGORY.API_GW}  checkValue={checkAccessApiGw}    onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={ACCESS_CATEGORY.X_ROAD} value={ACCESS_CATEGORY.X_ROAD}  checkValue={checkAccessApiXRoad} onChange={updateCategoryCheckBox} />
+                  <CategoryCheckBox label={ACCESS_CATEGORY.API_GW} value={ACCESS_CATEGORY.API_GW}  checkValue={checkAccessApiGw}    onChange={updateCategoryCheckBox} />
                 </SidebarAccordion>
+                <SidebarAccordion id="filter_settings" label="Stillingar">
+
+                <CategoryCheckBox label="Velja"   value="select-all" checkValue={checkSettingsCheckAll}     onChange={onCheckSettingsCheckAllClick}
+                    tooltip="Haka í eða úr öllum gildum í öllum flokkum."/>
+          <div>
+            <div>Leitaraðferð</div>
+          <RadioButton name="RadioButtonSearchMethod" id="SearchMethod1" label="Einn" value="1"
+            tooltip="Eitt gildi í einum flokk þarf að passa"
+            onChange={({ target }) => {
+            setRadioSearchMethod(target.value)
+            props.parameters.searchMethod = target.value === '1'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY;
+            setCheckSettingsSearchMethod(props.parameters.searchMethod)
+          }}
+          checked={radioSearchMethod === '1'}
+        />
+        <RadioButton name="RadioButtonSearchMethod" id="SearchMethod2" label="Allir" value="2"
+          tooltip="Eitt gildi í hverjum flokk þarf að passa"
+          onChange={({ target }) => {
+            setRadioSearchMethod(target.value)
+            props.parameters.searchMethod = target.value === '2'? SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_EACH_CATEGORY : SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY;
+            setCheckSettingsSearchMethod(props.parameters.searchMethod)
+          }}
+          checked={radioSearchMethod === '2'}
+        />
+        </div>
+
+
+                  {/*
+                  <CategoryCheckBox label="Leitaraðferð" value="method"     checkValue={checkSettingsSearchMethod} onChange={onCheckSettingsSearchMethodClick} 
+                  tooltip="Ef valið þá þarf alla vega eitt gildi í hverjum flokk að vera eins."/>*/}
+
+                  </SidebarAccordion>
                 </GridColumn>
               </GridRow>
             </GridContainer>
@@ -263,14 +348,15 @@ ServiceList.getInitialProps = async ():Promise<ServiceListProps> => {
     limit:null, 
     owner:null,
     name:null, 
-    pricing:getAllPriceCategories(), 
-    data:getAllDataCategories(),
-    type:getAllTypeCategories(),    
-    access:getAllAccessCategories()
+    pricing:[], 
+    data:[],
+    type:[],    
+    access:[],
+    searchMethod:SERVICE_SEARCH_METHOD.MUST_CONTAIN_ONE_OF_CATEGORY
   };
   
-  const response = await getServices(params);
+/*  const response = await getServices(params);
   const result = await response.result;
-
-  return { parameters:params, prevCursor:response.prevCursor, nextCursor:response.nextCursor, servicesList: result };
+  return { parameters:params, prevCursor:response.prevCursor, nextCursor:response.nextCursor, servicesList: result };*/
+  return { parameters:params, prevCursor:null, nextCursor:null, servicesList: null };
 }
