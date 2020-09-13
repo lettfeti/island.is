@@ -494,6 +494,18 @@ type Document {
   opened: Boolean!
 }
 
+type DocumentDetails {
+  fileType: String!
+  content: String!
+  html: String!
+  url: String!
+}
+
+type DocumentCategory {
+  id: ID!
+  name: String!
+}
+
 type ApiCatalogue {
   id: ID!
   owner: String!
@@ -532,16 +544,6 @@ enum TypeCategoryEnum {
 enum accessCategoryEnum {
   XROAD
   APIGW
-type DocumentDetails {
-  fileType: String!
-  content: String!
-  html: String!
-  url: String!
-}
-
-type DocumentCategory {
-  id: ID!
-  name: String!
 }
 
 type Query {
@@ -573,11 +575,11 @@ type Query {
   getLifeEvents(input: GetLifeEventsInput!): [LifeEventPage!]!
   getApplication(input: GetApplicationInput!): Application
   getApplicationsByType(input: GetApplicationsByTypeInput!): [Application!]
-  getDocument(input: GetDocumentInput!): Document
-  getCatalogues: [ApiCatalogue!]!
   getDocument(input: GetDocumentInput!): DocumentDetails
   listDocuments(input: ListDocumentsInput!): [Document!]
   getDocumentCategories: [DocumentCategory!]
+  catalogues: [ApiCatalogue!]!
+  getCatalogueById(input: GetApiCatalogueInput!): ApiCatalogue!
 }
 
 input HelloWorldInput {
@@ -744,6 +746,10 @@ input ListDocumentsInput {
   category: String!
   page: Float!
   pageSize: Float!
+}
+
+input GetApiCatalogueInput {
+  id: ID!
 }
 
 type Mutation {
