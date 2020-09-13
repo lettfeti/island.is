@@ -13,7 +13,7 @@ import {
   DataProviderResult,
   ExternalData,
   FormValue,
-} from '@island.is/application/schema'
+} from '@island.is/application/template'
 import { useMutation } from '@apollo/client'
 import { UPDATE_APPLICATION_EXTERNAL_DATA } from '@island.is/application/graphql'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -77,8 +77,7 @@ const FormExternalDataProvider: FC<{
   )
 
   const { id, dataProviders } = externalDataProvider
-  const label =
-    'Ég samþykki að sækja megi ofangreindar upplýsingar til að nýta við úrvinnslu umsóknarinnar ásamt innslegnum upplýsingum og þar með til að meta hvort ég uppfylli skilyrði til að fá stuðningslán. Auk þess er mér kunnugt um að í kjölfarið verði upplýsingunum miðlað til lánastofnunar minnar. Fjármála- og efnahagsráðuneytið mun, á grundvelli upplýsinga sem Seðlabankinn móttekur frá lánastofnunum, birta opinberlega upplýsingar um rekstraraðila sem njóta ábyrgðar, innan 12 mánaða frá því lán með ábyrgð er veitt.'
+  const label = 'Ég samþykki'
   return (
     <Box>
       {dataProviders.map((provider) => (

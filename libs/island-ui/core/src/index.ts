@@ -36,6 +36,9 @@ export * from './lib/AsyncSelect/AsyncSelect'
 export * from './lib/SkeletonLoader/SkeletonLoader'
 export * from './lib/Blockquote/Blockquote'
 export * from './lib/Alert/Alert'
+export { Swiper } from './lib/Swiper'
+export { FocusableBox } from './lib/FocusableBox'
+export * from './lib/DatePicker/DatePicker'
 
 // Layout
 export * from './lib/Box/Box'
@@ -49,6 +52,10 @@ export * from './lib/Column/Column'
 export * from './lib/ContentBlock/ContentBlock'
 export * from './lib/Accordion/Accordion'
 export * from './lib/AccordionItem/AccordionItem'
+export * from './lib/Sleeve/Sleeve'
+
+// Context
+export * from './lib/context'
 
 // Global reset
 export * from './global/global.treat'

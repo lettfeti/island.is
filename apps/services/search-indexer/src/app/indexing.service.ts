@@ -26,7 +26,10 @@ export class IndexingService {
       .sort(new Sort('date_updated', 'desc'))
       .size(1)
     try {
-      const result = await this.elasticService.findByQuery(index, query)
+      const result = await this.elasticService.deprecatedFindByQuery(
+        index,
+        query,
+      )
       return result.body?.hits?.hits[0]?._source?.nextSyncToken
     } catch (e) {
       logger.error('Could not fetch last sync token', {
@@ -148,13 +151,17 @@ export class IndexingService {
     // TODO: Fix this when improving mapping
     // related articles has a recursive nesting problem, we prune it for now
     if (entry.fields?.relatedArticles?.[0]?.fields) {
-      logger.info('Removing nested related articles from related articles')
-      // remove related articles from nested articles
-      const {
-        relatedArticles,
-        ...prunedRelatedArticlesFields
-      } = entry.fields.relatedArticles[0].fields
-      entry.fields.relatedArticles[0].fields = prunedRelatedArticlesFields
+      entry.fields.relatedArticles = entry.fields.relatedArticles.map(
+        (relatedArticle) => {
+          // remove related articles from nested articles
+          const {
+            relatedArticles,
+            ...prunedRelatedArticlesFields
+          } = relatedArticle.fields
+
+          return { fields: prunedRelatedArticlesFields }
+        },
+      )
     }
 
     /* eslint-disable @typescript-eslint/camelcase */
@@ -165,6 +172,7 @@ export class IndexingService {
       group: entry.fields?.group?.fields?.title,
       group_slug: entry.fields?.group?.fields?.slug,
       group_description: entry.fields?.group?.fields?.description,
+      subgroup: entry.fields?.subgroup?.fields?.title,
       content: reduceContent(entry.fields.content?.content),
       content_blob: JSON.stringify(entry.fields),
       content_id: entry.sys.id,
@@ -179,8 +187,15 @@ export class IndexingService {
       tag: [''],
       title: entry.fields.title,
       url: '',
+      term_pool: [],
       _id: entry.sys.id,
     }
+
+    // provide clean terms for e.g. autocomplete words
+    document.term_pool = `${document.title} ${document.category} ${document.group}`
+      .toLowerCase()
+      .replace(/[^a-záðéíúýþæö]+/g, ' ') // remove all non characters
+      .split(/\s+/)
 
     if (syncToken) {
       document.nextSyncToken = syncToken

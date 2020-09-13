@@ -106,7 +106,7 @@
     "gjafakort-consts": {
       "tags": []
     },
-    "application-schema": {
+    "application-template": {
       "tags": []
     },
     "application-form": {
@@ -222,6 +222,10 @@
     "skilavottord-ws": {
       "tags": []
     },
+    "infra-monitoring": {
+      "tags": []
+    },
+    "judicial-system-consts": {
     "api-catalog-graphql": {
       "tags": []
     },

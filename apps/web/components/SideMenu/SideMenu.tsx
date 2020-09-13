@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import Link from 'next/link'
 import FocusLock from 'react-focus-lock'
 import { RemoveScroll } from 'react-remove-scroll'
@@ -12,30 +12,25 @@ import {
   GridContainer,
   GridRow,
   GridColumn,
+  Box,
+  FocusableBox,
 } from '@island.is/island-ui/core'
+import { theme } from '@island.is/island-ui/theme'
 import { useI18n } from '@island.is/web/i18n'
-import { LinkBox } from './components/LinkBox'
 import * as styles from './SideMenu.treat'
 import { SearchInput } from '../SearchInput/SearchInput'
 import { LanguageToggler } from '../LanguageToggler'
-import { theme } from '@island.is/island-ui/theme'
 
 interface TabLink {
   title: string
   url: string
 }
 
-interface ExternalLink {
-  title: string
-  url: string
-  icon?: any
-}
-
 interface Tab {
   title: string
   links: TabLink[]
   externalLinksHeading?: string
-  externalLinks?: ExternalLink[]
+  externalLinks?: TabLink[]
 }
 
 interface Props {
@@ -46,7 +41,6 @@ interface Props {
 
 export const SideMenu: FC<Props> = ({ tabs, isVisible, handleClose }) => {
   const [activeTab, setActiveTab] = useState(0)
-  const buttonsRef = useRef([])
   const { activeLocale, t } = useI18n()
   const { width } = useWindowSize()
   const isMobile = width < theme.breakpoints.md
@@ -54,25 +48,34 @@ export const SideMenu: FC<Props> = ({ tabs, isVisible, handleClose }) => {
   useKey('Escape', handleClose)
 
   useEffect(() => {
-    if (buttonsRef.current && buttonsRef.current[activeTab]) {
-      buttonsRef.current[activeTab].focus()
-    }
-  }, [buttonsRef.current])
+    setActiveTab(0)
+  }, [isVisible])
 
   return isVisible ? (
     <RemoveScroll enabled={isMobile}>
       <FocusLock>
-        <div className={cn(styles.root, { [styles.isVisible]: isVisible })}>
-          <div className={styles.tabHeader}>
-            <button onClick={handleClose} tabIndex={-1}>
+        <Box
+          className={cn(styles.root, { [styles.isVisible]: isVisible })}
+          background="white"
+          boxShadow="subtle"
+          height="full"
+        >
+          <Box display="flex" paddingBottom={3} justifyContent="flexEnd">
+            <FocusableBox
+              component="button"
+              onClick={handleClose}
+              tabIndex={-1}
+              padding={1}
+            >
               <Icon type="close" />
-            </button>
-          </div>
+            </FocusableBox>
+          </Box>
           <Hidden above="sm">
-            <GridContainer className={styles.mobileContent}>
+            <GridContainer>
               <GridRow>
-                <GridColumn span={12}>
+                <GridColumn span="12/12">
                   <SearchInput
+                    id="search_input_side_menu"
                     activeLocale={activeLocale}
                     placeholder="Leitaðu á Ísland.is"
                     size="medium"
@@ -80,14 +83,14 @@ export const SideMenu: FC<Props> = ({ tabs, isVisible, handleClose }) => {
                 </GridColumn>
               </GridRow>
               <GridRow>
-                <GridColumn span={8} paddingTop={3} paddingBottom={3}>
-                  <Link href="https://minarsidur.island.is/" passHref>
+                <GridColumn span="8/12" paddingTop={3} paddingBottom={3}>
+                  <Link href="https://minarsidur.island.is/">
                     <Button variant="menu" leftIcon="user" width="fluid">
                       {t.login}
                     </Button>
                   </Link>
                 </GridColumn>
-                <GridColumn span={4} paddingTop={3} paddingBottom={3}>
+                <GridColumn span="4/12" paddingTop={3} paddingBottom={3}>
                   <LanguageToggler />
                 </GridColumn>
               </GridRow>
@@ -96,20 +99,27 @@ export const SideMenu: FC<Props> = ({ tabs, isVisible, handleClose }) => {
 
           <div className={styles.tabBar}>
             {tabs.map((tab, index) => (
-              <button
+              <FocusableBox
+                component="button"
+                key={tab.title}
                 role="tab"
                 aria-controls={`tab-content-${index}`}
-                className={cn(styles.tab, {
-                  [styles.tabActive]: activeTab === index,
-                })}
                 aria-selected={activeTab === index}
                 onClick={() => setActiveTab(index)}
-                ref={(buttonEl) => (buttonsRef.current[index] = buttonEl)}
               >
-                <Typography variant="eyebrow" color="blue400">
-                  {tab.title}
-                </Typography>
-              </button>
+                {({ isFocused }) => (
+                  <div
+                    className={cn(styles.tab, {
+                      [styles.tabActive]: activeTab === index,
+                      [styles.tabFocused]: isFocused,
+                    })}
+                  >
+                    <Typography variant="eyebrow" color="blue400">
+                      {tab.title}
+                    </Typography>
+                  </div>
+                )}
+              </FocusableBox>
             ))}
           </div>
           {tabs.map((tab, index) => {
@@ -129,36 +139,42 @@ export const SideMenu: FC<Props> = ({ tabs, isVisible, handleClose }) => {
                       color="blue400"
                       paddingBottom={index + 1 === tab.links.length ? 0 : 2}
                     >
-                      <a href={link.url}>{link.title}</a>
+                      <FocusableBox href={link.url}>{link.title}</FocusableBox>
                     </Typography>
                   ))}
                 </div>
                 {hasExternalLinks && (
-                  <div className={styles.externalLinks}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    flexDirection="column"
+                  >
                     <Typography
                       variant="eyebrow"
                       color="blue400"
                       paddingTop={3}
-                      paddingBottom={2}
+                      paddingBottom={3}
                     >
                       {tab.externalLinksHeading || 'Aðrir opinberir vefir'}
                     </Typography>
-                    <ul className={styles.externalLinksContent}>
-                      {tab.externalLinks.map((externalLink) => (
-                        <LinkBox
-                          key={externalLink.url}
-                          title={externalLink.title}
-                          url={externalLink.url}
-                          icon={externalLink.icon}
-                        />
+                    <div className={styles.linksContent}>
+                      {tab.externalLinks.map((link) => (
+                        <Typography
+                          key={link.url}
+                          variant="sideMenu"
+                          color="blue400"
+                          paddingBottom={2}
+                        >
+                          <a href={link.url}>{link.title}</a>
+                        </Typography>
                       ))}
-                    </ul>
-                  </div>
+                    </div>
+                  </Box>
                 )}
               </div>
             )
           })}
-        </div>
+        </Box>
       </FocusLock>
     </RemoveScroll>
   ) : null

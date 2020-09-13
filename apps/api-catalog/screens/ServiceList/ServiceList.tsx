@@ -263,7 +263,7 @@ export default function ServiceList(props:ServiceListProps) {
           <Box marginBottom="containerGutter" marginTop={1}>
             <GridContainer>
               <GridRow className="service-items">
-                <GridColumn span={9}>
+                <GridColumn span="9/12">
                   {showNavigation()}
                   <Stack space={2}>
                     {
@@ -274,7 +274,7 @@ export default function ServiceList(props:ServiceListProps) {
                   </Stack>
                     {showNavigation()}
                 </GridColumn>
-                <GridColumn  span={3} className="filter">
+                <GridColumn  span="3/12" className="filter">
                 <SidebarAccordion  id="pricing_category" label="Verð">
                   <CategoryCheckBox label={PRICING_CATEGORY.FREE}    value={PRICING_CATEGORY.FREE}    checkValue={checkPricingFree}    onChange={updateCategoryCheckBox} />
                   <CategoryCheckBox label={PRICING_CATEGORY.USAGE}   value={PRICING_CATEGORY.USAGE}   checkValue={checkPricingUsage}   onChange={updateCategoryCheckBox} />

@@ -1,21 +1,17 @@
 import { Test } from '@nestjs/testing'
 
-import { User } from '../../user.model'
+import { AirlineUser } from '../../user.model'
 import { PublicUserController } from '../../user.controller'
 import { UserService } from '../../user.service'
-import { DiscountService } from '../../../discount'
+import { DiscountService, Discount } from '../../../discount'
 
-const user: User = {
+const airlineUser: AirlineUser = {
   nationalId: '1326487905',
   firstName: 'Jón',
   gender: 'kk',
   lastName: 'Jónsson',
   middleName: 'Gunnar',
-  address: 'Bessastaðir 1',
-  postalcode: 225,
-  city: 'Álftanes',
   fund: {
-    nationalId: '1326487905',
     credit: 0,
     used: 0,
     total: 4,
@@ -35,12 +31,13 @@ describe('PublicUserController', () => {
           provide: UserService,
           useClass: jest.fn(() => ({
             getUserInfoByNationalId: () => ({}),
+            getAirlineUserInfoByNationalId: () => ({}),
           })),
         },
         {
           provide: DiscountService,
           useClass: jest.fn(() => ({
-            validateDiscount: () => ({}),
+            getDiscountByDiscountCode: () => ({}),
           })),
         },
       ],
@@ -57,32 +54,34 @@ describe('PublicUserController', () => {
     it('should return a user', async () => {
       const nationalId = '1326487905'
       const discountCode = 'ABCDEFG'
+      const discount = new Discount(discountCode, nationalId, 0)
 
-      const validateDiscountSpy = jest
-        .spyOn(discountService, 'validateDiscount')
-        .mockImplementation(() => Promise.resolve(nationalId))
-      const getUserInfoByNationalIdSpy = jest
-        .spyOn(userService, 'getUserInfoByNationalId')
-        .mockImplementation(() => Promise.resolve(user))
+      const getDiscountByDiscountCodeSpy = jest
+        .spyOn(discountService, 'getDiscountByDiscountCode')
+        .mockImplementation(() => Promise.resolve(discount))
+      const getAirlineUserInfoByNationalIdSpy = jest
+        .spyOn(userService, 'getAirlineUserInfoByNationalId')
+        .mockImplementation(() => Promise.resolve(airlineUser))
 
       const result = await publicUserController.getUserByDiscountCode({
         discountCode,
       })
 
-      expect(validateDiscountSpy).toHaveBeenCalledWith(discountCode)
-      expect(getUserInfoByNationalIdSpy).toHaveBeenCalledWith(nationalId)
-      expect(result).toBe(user)
+      expect(getDiscountByDiscountCodeSpy).toHaveBeenCalledWith(discountCode)
+      expect(getAirlineUserInfoByNationalIdSpy).toHaveBeenCalledWith(nationalId)
+      expect(result).toBe(airlineUser)
     })
 
     it('should return not found error when user does not exist', async () => {
       const nationalId = '1326487905'
       const discountCode = 'ABCDEFG'
+      const discount = new Discount(discountCode, nationalId, 0)
 
       jest
-        .spyOn(discountService, 'validateDiscount')
-        .mockImplementation(() => Promise.resolve(nationalId))
+        .spyOn(discountService, 'getDiscountByDiscountCode')
+        .mockImplementation(() => Promise.resolve(discount))
       jest
-        .spyOn(userService, 'getUserInfoByNationalId')
+        .spyOn(userService, 'getAirlineUserInfoByNationalId')
         .mockImplementation(() => Promise.resolve(null))
 
       try {
