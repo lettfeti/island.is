@@ -111,6 +111,9 @@
       "@island.is/api-catalog/x-road": ["libs/api-catalog/x-road/src/index.ts"],
       "@island.is/application/data-providers": [
         "libs/application/data-providers/src/index.ts"
+      ],
+      "@island.is/api/domains/api-catalogue": [
+        "libs/api/domains/api-catalogue/src/index.ts"
       ]
     }
   },

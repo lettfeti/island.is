@@ -234,6 +234,9 @@
     },
     "api-catalog-x-road": {
       "tags": []
+    },
+    "api-domains-api-catalogue": {
+      "tags": []
     }
   }
 }

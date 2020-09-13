@@ -377,6 +377,46 @@ type Document {
   opened: Boolean!
 }
 
+type ApiCatalogue {
+  id: ID!
+  owner: String!
+  serviceName: String!
+  description: String!
+  url: String!
+  pricing: PricingCategoryEnum!
+  data: DataCategoryEnum!
+  type: TypeCategoryEnum!
+  access: accessCategoryEnum!
+}
+
+enum PricingCategoryEnum {
+  FREE
+  USAGE
+  DAILY
+  MONTHLY
+  YEARLY
+  CUSTOM
+}
+
+enum DataCategoryEnum {
+  PUBLIC
+  OFFICIAL
+  PERSONAL
+  HEALTH
+  FINANCIAL
+}
+
+enum TypeCategoryEnum {
+  REST
+  SOAP
+  GRAPHQL
+}
+
+enum accessCategoryEnum {
+  XROAD
+  APIGW
+}
+
 type Query {
   helloWorld(input: HelloWorldInput!): HelloWorld!
   searchResults(query: SearcherInput!): SearchResult!
@@ -399,6 +439,7 @@ type Query {
   getApplication(input: GetApplicationInput!): Application
   getApplicationsByType(input: GetApplicationsByTypeInput!): [Application!]
   getDocument(input: GetDocumentInput!): Document
+  getCatalogues: [ApiCatalogue!]!
 }
 
 input HelloWorldInput {
