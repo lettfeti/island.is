@@ -506,6 +506,46 @@ type DocumentCategory {
   name: String!
 }
 
+type ApiCatalogue {
+  id: ID!
+  owner: String!
+  serviceName: String!
+  description: String!
+  url: String!
+  pricing: PricingCategoryEnum!
+  data: DataCategoryEnum!
+  type: TypeCategoryEnum!
+  access: accessCategoryEnum!
+}
+
+enum PricingCategoryEnum {
+  FREE
+  USAGE
+  DAILY
+  MONTHLY
+  YEARLY
+  CUSTOM
+}
+
+enum DataCategoryEnum {
+  PUBLIC
+  OFFICIAL
+  PERSONAL
+  HEALTH
+  FINANCIAL
+}
+
+enum TypeCategoryEnum {
+  REST
+  SOAP
+  GRAPHQL
+}
+
+enum accessCategoryEnum {
+  XROAD
+  APIGW
+}
+
 type Query {
   helloWorld(input: HelloWorldInput!): HelloWorld!
   searchResults(query: SearcherInput!): SearchResult!
@@ -538,6 +578,8 @@ type Query {
   getDocument(input: GetDocumentInput!): DocumentDetails
   listDocuments(input: ListDocumentsInput!): [Document!]
   getDocumentCategories: [DocumentCategory!]
+  catalogues: [ApiCatalogue!]!
+  getCatalogueById(input: GetApiCatalogueInput!): ApiCatalogue!
 }
 
 input HelloWorldInput {
@@ -704,6 +746,10 @@ input ListDocumentsInput {
   category: String!
   page: Float!
   pageSize: Float!
+}
+
+input GetApiCatalogueInput {
+  id: ID!
 }
 
 type Mutation {

@@ -117,6 +117,9 @@
       "@island.is/infra-monitoring": ["libs/infra-monitoring/src/index.ts"],
       "@island.is/judicial-system/consts": [
         "libs/judicial-system/consts/src/index.ts"
+      ],
+      "@island.is/api/domains/api-catalogue": [
+        "libs/api/domains/api-catalogue/src/index.ts"
       ]
     }
   },

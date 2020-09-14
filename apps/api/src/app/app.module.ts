@@ -7,6 +7,7 @@ import { CmsModule } from '@island.is/api/domains/cms'
 import { ApplicationModule } from '@island.is/api/domains/application'
 import { FileUploadModule } from '@island.is/api/domains/file-upload'
 import { DocumentModule } from '@island.is/api/domains/documents'
+import { ApiCatalogueModule } from '@island.is/api/domains/api-catalogue'
 
 const debug = process.env.NODE_ENV === 'development'
 const playground = debug || process.env.GQL_PLAYGROUND_ENABLED === 'true'
@@ -37,6 +38,7 @@ const playground = debug || process.env.GQL_PLAYGROUND_ENABLED === 'true'
     ApplicationModule,
     FileUploadModule,
     DocumentModule,
+    ApiCatalogueModule,
   ],
 })
 export class AppModule {}

@@ -226,7 +226,6 @@
       "tags": []
     },
     "judicial-system-consts": {
-    "api-catalog-graphql": {
       "tags": []
     },
     "api-catalog": {
@@ -236,7 +235,7 @@
       "tags": [],
       "implicitDependencies": ["api-catalog"]
     },
-    "api-catalog-x-road": {
+    "api-domains-api-catalogue": {
       "tags": []
     }
   }
