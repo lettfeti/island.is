@@ -3,7 +3,7 @@ const withTreat = require('next-treat')()
 const withSourceMaps = require('@zeit/next-source-maps')
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 
-const withHealthcheckConfig = require('./units/Healthchecks/withHealthcheckConfig')
+const withHealthcheckConfig = require('./next-modules/withHealthcheckConfig')
 
 // These modules need to be transpiled for IE11 support. This is not ideal,
 // we should aim to drop IE11 support, or only use dependencies that have
@@ -34,7 +34,7 @@ module.exports = withSourceMaps(
             config.resolve.alias['@sentry/node'] = '@sentry/browser'
           }
 
-          /*
+          /* Only used for sourcemaps in sentry
           const include = path.join(
             __dirname,
             '..',

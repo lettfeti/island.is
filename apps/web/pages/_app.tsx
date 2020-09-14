@@ -33,7 +33,10 @@ interface AppCustomContext extends AppContext {
 type SupportApplicationProps = NextComponentType<
   AppCustomContext,
   AppInitialProps,
-  AppCustomProps & { err: Error & { statusCode?: number } }
+  AppCustomProps & {
+    err: Error & { statusCode?: number }
+    apolloState: NormalizedCacheObject
+  }
 >
 
 const {
@@ -65,6 +68,7 @@ const SupportApplication: SupportApplicationProps = ({
   layoutProps,
   router,
   err,
+  apolloState,
 }) => {
   const { showSearchInHeader } = pageProps
   const lang = router.pathname.startsWith('en') ? 'en' : 'is'
@@ -91,7 +95,7 @@ const SupportApplication: SupportApplicationProps = ({
   })
 
   return (
-    <ApolloProvider client={initApollo(pageProps.apolloState)}>
+    <ApolloProvider client={initApollo(apolloState)}>
       <Layout showSearchInHeader={showSearchInHeader} {...layoutProps}>
         <Component {...pageProps} err={err} />
       </Layout>
